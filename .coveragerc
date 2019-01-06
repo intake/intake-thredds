@@ -1,0 +1,6 @@
+[run]
+omit = 
+    tests/*.py
+    intake_siphon/_version.py
+    versioneer.py
+    setup.py
