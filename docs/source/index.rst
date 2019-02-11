@@ -16,5 +16,5 @@ Feedback
 ========
 
 
-If you encounter any errors or problems with **intake-siphon**,
-please open an Issue at the GitHub http://github.com/NCAR/intake-siphon main repository.
+If you encounter any errors or problems with **intake-thredds**,
+please open an Issue at the GitHub http://github.com/NCAR/intake-thredds main repository.

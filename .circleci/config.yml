@@ -35,7 +35,7 @@ jobs:
 
     environment:
       PYTHON: "2.7"
-      ENV_NAME: "intake-siphon-dev"
+      ENV_NAME: "intake-thredds-dev"
 
     steps:
       - checkout
@@ -71,7 +71,7 @@ jobs:
 
     environment:
       PYTHON: "3.6"
-      ENV_NAME: "intake-siphon-dev"
+      ENV_NAME: "intake-thredds-dev"
 
     steps:
     
