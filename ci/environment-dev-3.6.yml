@@ -1,4 +1,4 @@
-name: intake-siphon-dev
+name: intake-thredds-dev
 channels:
   - conda-forge
 dependencies:

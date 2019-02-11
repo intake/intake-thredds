@@ -1,6 +1,6 @@
 [run]
 omit = 
     tests/*.py
-    intake_siphon/_version.py
+    intake_thredds/_version.py
     versioneer.py
     setup.py

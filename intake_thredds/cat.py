@@ -2,7 +2,7 @@ from intake.catalog import Catalog
 from intake.catalog.local import LocalCatalogEntry
 
 
-class SiphonCatalog(Catalog):
+class ThreddsCatalog(Catalog):
     name = 'thredds_cat'
 
     def __init__(self, url, metadata=None):

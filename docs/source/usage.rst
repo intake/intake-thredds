@@ -2,6 +2,6 @@
 Usage
 ========
 
-To use intake-siphon in a project::
+To use intake-thredds in a project::
 
-	import intake_siphon
+	import intake_thredds
