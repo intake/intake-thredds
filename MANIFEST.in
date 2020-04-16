@@ -1,5 +1,14 @@
-include AUTHORS.rst
+
+include CHANGELOG.rst
 include CONTRIBUTING.rst
-include HISTORY.rst
 include LICENSE
 include README.rst
+include requirements.txt
+
+recursive-include docs/source *
+include docs/Makefile docs/make.bat
+recursive-include intake_thredds *.py
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+prune tests*
+prune ci*
