@@ -39,6 +39,7 @@ setup(
     url='https://github.com/NCAR/intake-thredds',
     packages=find_packages(),
     package_dir={'intake-thredds': 'intake-thredds'},
+    entry_points={'intake.drivers': ['thredds_cat = intake_thredds.cat:ThreddsCatalog']},
     include_package_data=True,
     install_requires=install_requires,
     license='Apache 2.0',
