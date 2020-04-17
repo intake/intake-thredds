@@ -1,0 +1,3 @@
+siphon
+intake
+intake-xarray>=0.3
