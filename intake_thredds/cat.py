@@ -11,22 +11,42 @@ class ThreddsCatalog(Catalog):
 
     def _load(self):
         from siphon.catalog import TDSCatalog
+
         self.cat = TDSCatalog(self.url)
         self.name = self.cat.catalog_name
 
         # sub-cats
         self._entries = {
             r.title: LocalCatalogEntry(
-                r.title, 'THREDDS cat', 'thredds_cat', True, {'url': r.href},
-                [], [], {}, None, catalog=self)
+                r.title,
+                'THREDDS cat',
+                'thredds_cat',
+                True,
+                {'url': r.href},
+                [],
+                [],
+                {},
+                None,
+                catalog=self,
+            )
             for r in self.cat.catalog_refs.values()
         }
 
         # data entries (only those with opendap links)
-        self._entries.update({
-            ds.name: LocalCatalogEntry(
-                ds.name, 'THREDDS data', 'netcdf', True,
-                {'urlpath': ds.access_urls['OPENDAP'], 'chunks': None},
-                [], [], {}, None, catalog=self)
-            for ds in self.cat.datasets.values()
-        })
+        self._entries.update(
+            {
+                ds.name: LocalCatalogEntry(
+                    ds.name,
+                    'THREDDS data',
+                    'netcdf',
+                    True,
+                    {'urlpath': ds.access_urls['OPENDAP'], 'chunks': None},
+                    [],
+                    [],
+                    {},
+                    None,
+                    catalog=self,
+                )
+                for ds in self.cat.datasets.values()
+            }
+        )

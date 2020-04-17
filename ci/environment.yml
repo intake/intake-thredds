@@ -1,0 +1,14 @@
+name: intake-thredds-dev
+channels:
+  - conda-forge
+dependencies:
+  - codecov
+  - intake
+  - netcdf4
+  - pip
+  - pytest
+  - pytest-cov
+  - pytest-icdiff
+  - pytest-xdist
+  - siphon
+  - xarray
