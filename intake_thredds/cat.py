@@ -7,13 +7,14 @@ class ThreddsCatalog(Catalog):
 
     def __init__(self, url, metadata=None):
         self.url = url
-        super().__init__(metadata)
+        super().__init__(metadata=metadata)
 
     def _load(self):
         from siphon.catalog import TDSCatalog
 
         self.cat = TDSCatalog(self.url)
         self.name = self.cat.catalog_name
+        self.metadata.update(self.cat.metadata)
 
         # sub-cats
         self._entries = {

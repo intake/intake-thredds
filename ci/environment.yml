@@ -4,6 +4,7 @@ channels:
 dependencies:
   - codecov
   - intake
+  - intake-xarray
   - netcdf4
   - pip
   - pytest

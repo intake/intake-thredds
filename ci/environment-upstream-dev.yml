@@ -3,6 +3,7 @@ channels:
   - conda-forge
 dependencies:
   - codecov
+  - intake-xarray
   - netcdf4
   - pip
   - pytest
