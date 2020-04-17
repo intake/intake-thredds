@@ -4,6 +4,11 @@ from intake_xarray.base import DataSourceMixin
 
 from .cat import ThreddsCatalog
 
+try:
+    from tqdm import tqdm
+except ImportError:
+    tqdm = None
+
 
 class THREDDSMergedSource(DataSourceMixin):
     version = '1.0'
@@ -11,7 +16,7 @@ class THREDDSMergedSource(DataSourceMixin):
     name = 'thredds_merged'
     partition_access = True
 
-    def __init__(self, url, path, metadata=None):
+    def __init__(self, url, path, progressbar=True, metadata=None):
         """
 
         Parameters
@@ -21,6 +26,9 @@ class THREDDSMergedSource(DataSourceMixin):
         path : list of str
             Subcats to follow; include glob characters (*, ?) in here for
             matching
+        progressbar : bool
+            If True, will print a progress bar. Requires `tqdm <https://github.com/tqdm/tqdm>`__
+            to be installed.
         metadata : dict or None
             To associate with this source
         """
@@ -28,6 +36,9 @@ class THREDDSMergedSource(DataSourceMixin):
         self.urlpath = url
         self.path = path
         self._ds = None
+        self.progressbar = progressbar
+        if self.progressbar and tqdm is None:
+            raise ValueError("Missing package 'tqdm' required for progress bars.")
 
     def _open_dataset(self):
         import xarray as xr
@@ -41,7 +52,10 @@ class THREDDSMergedSource(DataSourceMixin):
                 else:
                     break
             path = self.path[i:]
-            data = [ds.to_dask() for ds in _match(cat, path)]
+            if self.progressbar:
+                data = [ds.to_dask() for ds in tqdm(_match(cat, path), desc='Dataset(s)', ncols=79)]
+            else:
+                data = [ds.to_dask() for ds in _match(cat, path)]
             self._ds = xr.combine_by_coords(data)
 
 
