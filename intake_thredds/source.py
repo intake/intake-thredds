@@ -1,10 +1,15 @@
 import fnmatch
-from intake_xarray import NetCDFSource
+
 from intake_xarray.base import DataSourceMixin
+
 from .cat import ThreddsCatalog
 
 
 class THREDDSMergedSource(DataSourceMixin):
+    version = '1.0'
+    container = 'xarray'
+    name = 'thredds_merged'
+    partition_access = True
 
     def __init__(self, url, path, metadata=None):
         """
@@ -19,33 +24,33 @@ class THREDDSMergedSource(DataSourceMixin):
         metadata : dict or None
             To associate with this source
         """
-        super(THREDDSMergedSource, self).__init__(metadata)
+        super(THREDDSMergedSource, self).__init__(metadata=metadata)
         self.urlpath = url
         self.path = path
         self._ds = None
 
     def _open_dataset(self):
-        import xarray
+        import xarray as xr
+
         if self._ds is None:
             cat = ThreddsCatalog(self.urlpath)
             for i in range(len(self.path)):
                 part = self.path[i]
-                if "*" not in part and "?" not in part:
+                if '*' not in part and '?' not in part:
                     cat = cat[part]()
                 else:
                     break
             path = self.path[i:]
-            data = [ds.to_dask() for ds in match(cat, path)]
+            data = [ds.to_dask() for ds in _match(cat, path)]
+            self._ds = xr.combine_by_coords(data)
 
-            self._ds = xarray.auto_combine(data)
 
-
-def match(cat, patterns):
+def _match(cat, patterns):
     out = []
     for name in cat:
         if fnmatch.fnmatch(name, patterns[0]):
             if len(patterns) == 1:
-                out.append(cat[name]())
+                out.append(cat[name](chunks={}))
             else:
-                out.extend(match(cat[name](), patterns[1:]))
+                out.extend(_match(cat[name](), patterns[1:]))
     return out
