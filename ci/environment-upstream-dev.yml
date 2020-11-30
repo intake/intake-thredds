@@ -10,6 +10,7 @@ dependencies:
   - pytest-cov
   - pytest-icdiff
   - pytest-xdist
+  - tqdm
   - xarray
   - pip:
       - git+https://github.com/intake/intake.git
