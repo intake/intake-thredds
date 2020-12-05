@@ -1,4 +1,5 @@
 import intake
+import intake_xarray
 import pytest
 import xarray as xr
 
@@ -23,14 +24,14 @@ def test_init_catalog(thredds_cat_url):
 def test_entry(thredds_cat_url):
     cat = intake.open_thredds_cat(thredds_cat_url)
     entry = cat['err.mnmean.v3.nc']
-    assert isinstance(entry, intake.catalog.local.LocalCatalogEntry)
+    assert isinstance(entry, intake_xarray.netcdf.NetCDFSource)
     d = entry.describe()
     assert d['name'] == 'err.mnmean.v3.nc'
     assert d['container'] == 'xarray'
     assert d['plugin'] == ['netcdf']
     assert (
         d['args']['urlpath']
-        == 'https://psl.noaa.gov/psd/thredds/dodsC/Datasets/noaa.ersst/err.mnmean.v3.nc'
+        == 'https://psl.noaa.gov/thredds/fileServer/Datasets/noaa.ersst/err.mnmean.v3.nc'
     )
 
     ds = entry(chunks={}).to_dask()
