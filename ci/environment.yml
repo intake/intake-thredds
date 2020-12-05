@@ -4,7 +4,6 @@ channels:
 dependencies:
   - codecov
   - intake
-  - intake-xarray
   - netcdf4
   - pip
   - pytest
@@ -15,3 +14,5 @@ dependencies:
   - tqdm
   - xarray
   - aiohttp
+  - pip:
+    - git+https://github.com/intake/intake.git
