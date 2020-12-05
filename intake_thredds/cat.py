@@ -39,9 +39,10 @@ class ThreddsCatalog(Catalog):
                 ds.name: LocalCatalogEntry(
                     ds.name,
                     'THREDDS data',
-                    #'netcdf',
+                    # 'netcdf',
                     'opendap',
                     True,
+                    # {'urlpath': ds.access_urls['HTTPServer'], 'chunks': None},
                     {'urlpath': ds.access_urls['OPENDAP'], 'chunks': None},
                     [],
                     [],

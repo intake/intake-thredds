@@ -23,11 +23,12 @@ def test_init_catalog(thredds_cat_url):
 def test_entry(thredds_cat_url):
     cat = intake.open_thredds_cat(thredds_cat_url)
     entry = cat['err.mnmean.v3.nc']
-    assert isinstance(entry, intake.catalog.local.LocalCatalogEntry)
+    # assert isinstance(entry, intake.catalog.local.LocalCatalogEntry)
+    assert isinstance(entry, intake_xarray.opendap.OpenDapSource)
     d = entry.describe()
     assert d['name'] == 'err.mnmean.v3.nc'
     assert d['container'] == 'xarray'
-    assert d['plugin'] == ['netcdf']
+    assert d['plugin'] == ['opendap']
     assert (
         d['args']['urlpath']
         == 'https://psl.noaa.gov/psd/thredds/dodsC/Datasets/noaa.ersst/err.mnmean.v3.nc'
