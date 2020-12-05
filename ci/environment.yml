@@ -15,4 +15,4 @@ dependencies:
   - xarray
   - aiohttp
   - pip:
-    - git+https://github.com/intake/intake.git
+      - git+https://github.com/intake/intake_xarray.git
