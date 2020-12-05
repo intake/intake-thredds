@@ -13,6 +13,7 @@ dependencies:
   - tqdm
   - xarray
   - pydap
+  - aiohttp
   - pip:
       - git+https://github.com/intake/intake.git
       - git+https://github.com/Unidata/siphon.git
