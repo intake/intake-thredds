@@ -41,7 +41,7 @@ class ThreddsCatalog(Catalog):
                     'THREDDS data',
                     'netcdf',
                     True,
-                    {'urlpath': ds.access_urls['OPENDAP'], 'chunks': None},
+                    {'urlpath': ds.access_urls['HTTPServer'], 'chunks': None},
                     [],
                     [],
                     {},
