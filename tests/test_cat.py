@@ -1,7 +1,7 @@
 import intake
+import intake_xarray
 import pytest
 import xarray as xr
-import intake_xarray
 
 
 @pytest.fixture(scope='module')
