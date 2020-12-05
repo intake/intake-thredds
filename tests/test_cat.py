@@ -32,7 +32,7 @@ def test_entry(thredds_cat_url):
     assert d['plugin'] == ['opendap']
     assert (
         d['args']['urlpath']
-        == 'https://psl.noaa.gov/psd/thredds/dodsC/Datasets/noaa.ersst/err.mnmean.v3.nc'
+        == 'https://psl.noaa.gov/thredds/dodsC/Datasets/noaa.ersst/err.mnmean.v3.nc'
     )
 
     ds = entry(chunks={}).to_dask()
