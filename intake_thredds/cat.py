@@ -40,7 +40,7 @@ class ThreddsCatalog(Catalog):
                     ds.name,
                     'THREDDS data',
                     #'netcdf',
-                    opendap,
+                    'opendap',
                     True,
                     {'urlpath': ds.access_urls['OPENDAP'], 'chunks': None},
                     [],
