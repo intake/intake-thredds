@@ -3,7 +3,7 @@ channels:
   - conda-forge
 dependencies:
   - codecov
-  - intake-xarray
+  - h5netcdf
   - netcdf4
   - pip
   - pytest
@@ -15,4 +15,5 @@ dependencies:
   - aiohttp
   - pip:
       - git+https://github.com/intake/intake.git
+      - git+https://github.com/intake/intake-xarray.git
       - git+https://github.com/Unidata/siphon.git
