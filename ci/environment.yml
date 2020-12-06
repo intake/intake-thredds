@@ -5,6 +5,7 @@ dependencies:
   - codecov
   - intake
   - netcdf4
+  - h5netcdf
   - pip
   - pytest
   - pytest-cov
