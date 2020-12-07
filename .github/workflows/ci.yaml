@@ -28,7 +28,7 @@ jobs:
           channels: conda-forge
           channel-priority: strict
           mamba-version: '*'
-          activate-environment: pop-tools-dev
+          activate-environment: intake-thredds-dev
           auto-update-conda: false
           python-version: ${{ matrix.python-version }}
 
