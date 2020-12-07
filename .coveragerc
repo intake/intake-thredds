@@ -1,5 +1,5 @@
 [run]
-omit = 
+omit =
     tests/*.py
     intake_thredds/_version.py
     versioneer.py
