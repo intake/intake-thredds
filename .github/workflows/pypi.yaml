@@ -1,4 +1,4 @@
-name: Publish pop-tools to PyPI
+name: Publish intake-thredds to PyPI
 
 on:
   release:
