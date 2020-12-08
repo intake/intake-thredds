@@ -2,6 +2,7 @@ name: intake-thredds-dev
 channels:
   - conda-forge
 dependencies:
+  - aiohttp
   - codecov
   - intake-xarray
   - netcdf4

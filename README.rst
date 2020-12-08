@@ -2,9 +2,6 @@
     :target: https://github.com/NCAR/intake-thredds/actions
     :alt: GitHub Workflow Status
 
-.. image:: https://img.shields.io/circleci/project/github/NCAR/intake-thredds/master.svg?style=for-the-badge&logo=circleci
-    :target: https://circleci.com/gh/NCAR/intake-thredds/tree/master
-
 .. image:: https://img.shields.io/codecov/c/github/NCAR/intake-thredds.svg?style=for-the-badge
     :target: https://codecov.io/gh/NCAR/intake-thredds
 .. image:: https://img.shields.io/readthedocs/intake-thredds/latest.svg?style=for-the-badge
