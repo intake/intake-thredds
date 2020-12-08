@@ -1,5 +1,5 @@
 aiohttp>=3.7
 intake-xarray>=0.3
-pydap
 intake>=0.6.0
+pydap
 siphon
