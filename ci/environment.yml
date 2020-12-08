@@ -15,3 +15,5 @@ dependencies:
   - siphon
   - tqdm
   - xarray
+  - pydap
+  - aiohttp
