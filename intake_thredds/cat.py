@@ -5,9 +5,9 @@ from intake.catalog.local import LocalCatalogEntry
 class ThreddsCatalog(Catalog):
     name = 'thredds_cat'
 
-    def __init__(self, url, metadata=None):
+    def __init__(self, url, **kwargs):
         self.url = url
-        super().__init__(metadata=metadata)
+        super().__init__(**kwargs)
 
     def _load(self):
         from siphon.catalog import TDSCatalog
