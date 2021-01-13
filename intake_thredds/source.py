@@ -56,7 +56,7 @@ class THREDDSMergedSource(DataSourceMixin):
                 data = [ds.to_dask() for ds in tqdm(_match(cat, path), desc='Dataset(s)', ncols=79)]
             else:
                 data = [ds.to_dask() for ds in _match(cat, path)]
-            self._ds = xr.combine_by_coords(data)
+            self._ds = xr.combine_by_coords(data, combine_attrs='override')
 
 
 def _match(cat, patterns):
