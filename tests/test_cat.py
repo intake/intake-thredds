@@ -51,6 +51,7 @@ def test_entry_simplecache(thredds_cat_url):
     import os
 
     import fsspec
+
     fsspec.config.conf['simplecache'] = {'cache_storage': 'my_caching_folder', 'same_names': True}
     cat = intake.open_thredds_cat(f'simplecache::{thredds_cat_url}', driver='netcdf')
     entry = cat['err.mnmean.v3.nc']
@@ -63,5 +64,5 @@ def test_entry_simplecache(thredds_cat_url):
 def test_entry_simplecache(thredds_cat_url):
     """Test no simplecache:: in url with opendap."""
     with pytest.raises(ValueError) as e:
-        cat = intake.open_thredds_cat(f'simplecache::{thredds_cat_url}',driver='opendap')
+        cat = intake.open_thredds_cat(f'simplecache::{thredds_cat_url}', driver='opendap')
     assert 'simplecache requires driver="netcdf"' in str(e.value)
