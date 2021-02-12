@@ -37,7 +37,7 @@ class THREDDSMergedSource(DataSourceMixin):
         super(THREDDSMergedSource, self).__init__(metadata=metadata)
         self.urlpath = url
         if 'simplecache' in url:
-            self.metadata.update({'cache':'simplecache::'})
+            self.metadata.update({'cache': 'simplecache::'})
         self.path = path
         self.driver = driver
         self._ds = None
@@ -53,13 +53,10 @@ class THREDDSMergedSource(DataSourceMixin):
             for i in range(len(self.path)):
                 part = self.path[i]
                 if '*' not in part and '?' not in part:
-                    #print(i,'before',part,self.driver)
                     cat = cat[part](driver=self.driver)
-                    #print(i,'after',self.driver,'\n')
                 else:
                     break
             path = self.path[i:]
-            #print(path, _match(cat, path)[0], _match(cat, path)[-1])
             if self.progressbar:
                 data = [ds.to_dask() for ds in tqdm(_match(cat, path), desc='Dataset(s)', ncols=79)]
             else:
