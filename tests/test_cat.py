@@ -46,7 +46,7 @@ def test_entry(thredds_cat_url, driver):
     assert isinstance(ds, xr.Dataset)
 
 
-def test_entry_simplecache(thredds_cat_url):
+def test_entry_simplecache_netcdf(thredds_cat_url):
     """Test allow simplecache:: in url if netcdf as source."""
     import os
 
@@ -61,8 +61,8 @@ def test_entry_simplecache(thredds_cat_url):
     os.path.exists('my_caching_folder/err.mnmean.v3.nc')
 
 
-def test_entry_simplecache(thredds_cat_url):
+def test_entry_simplecache_fails_opendap(thredds_cat_url):
     """Test no simplecache:: in url with opendap."""
     with pytest.raises(ValueError) as e:
-        cat = intake.open_thredds_cat(f'simplecache::{thredds_cat_url}', driver='opendap')
+        intake.open_thredds_cat(f'simplecache::{thredds_cat_url}', driver='opendap')
     assert 'simplecache requires driver="netcdf"' in str(e.value)
