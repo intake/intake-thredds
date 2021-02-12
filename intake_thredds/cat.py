@@ -5,8 +5,9 @@ from intake.catalog.local import LocalCatalogEntry
 class ThreddsCatalog(Catalog):
     name = 'thredds_cat'
 
-    def __init__(self, url, **kwargs):
+    def __init__(self, url, driver='opendap', **kwargs):
         self.url = url
+        self.driver = driver
         super().__init__(**kwargs)
 
     def _load(self):
@@ -34,16 +35,18 @@ class ThreddsCatalog(Catalog):
         }
 
         # data entries (only those with opendap links)
+        if self.driver == 'opendap':
+            driver_for_access_urls = 'OPENDAP'
+        elif self.driver == 'netcdf':
+            driver_for_access_urls = 'HTTPServer'
         self._entries.update(
             {
                 ds.name: LocalCatalogEntry(
                     ds.name,
                     'THREDDS data',
-                    # 'netcdf',
-                    'opendap',
+                    self.driver,
                     True,
-                    # {'urlpath': ds.access_urls['HTTPServer'], 'chunks': None},
-                    {'urlpath': ds.access_urls['OPENDAP'], 'chunks': None},
+                    {'urlpath': ds.access_urls[driver_for_access_urls], 'chunks': None},
                     [],
                     [],
                     {},

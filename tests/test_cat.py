@@ -17,22 +17,33 @@ def test_init_catalog(thredds_cat_url):
 
     assert 'err.mnmean.v3.nc' in cat
 
-    cat = intake.open_thredds_cat(thredds_cat_url, metadata={'random_attribute': 'thredds'})
+    cat = intake.open_thredds_cat(
+        thredds_cat_url,
+        metadata={'random_attribute': 'thredds'}
+    )
     assert 'random_attribute' in cat.metadata
 
 
-def test_entry(thredds_cat_url):
-    cat = intake.open_thredds_cat(thredds_cat_url)
+@pytest.mark.parametrize('driver', ['netcdf', 'opendap'])
+def test_entry(thredds_cat_url, driver):
+    """Test entry.to_dask() is xr.Dataset and allows opendap and netcdf as source."""
+    cat = intake.open_thredds_cat(thredds_cat_url, driver=driver)
     entry = cat['err.mnmean.v3.nc']
-    assert isinstance(entry, intake_xarray.opendap.OpenDapSource)
+    if driver == 'opendap':
+        assert isinstance(entry, intake_xarray.opendap.OpenDapSource)
+    elif driver == 'netcdf':
+        assert isinstance(entry, intake_xarray.netcdf.NetCDFSource)
     d = entry.describe()
     assert d['name'] == 'err.mnmean.v3.nc'
     assert d['container'] == 'xarray'
-    assert d['plugin'] == ['opendap']
+    assert d['plugin'] == [driver]
+    if driver == 'opendap':
+        loc = 'dodsC'
+    elif driver == 'netcdf':
+        loc = 'fileServer'
     assert (
         d['args']['urlpath']
-        == 'https://psl.noaa.gov/thredds/dodsC/Datasets/noaa.ersst/err.mnmean.v3.nc'
+        == f'https://psl.noaa.gov/thredds/{loc}/Datasets/noaa.ersst/err.mnmean.v3.nc'
     )
-
     ds = entry(chunks={}).to_dask()
     assert isinstance(ds, xr.Dataset)
