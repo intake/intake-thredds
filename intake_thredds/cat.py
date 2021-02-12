@@ -18,8 +18,8 @@ class ThreddsCatalog(Catalog):
                 use_simplecache = True
                 self.url = self.url.replace('simplecache::', '')
             else:
-                raise ValueError('simplecache requires driver="netcdf", '
-                                f'found driver="{self.driver}".')
+                raise ValueError(
+                    'simplecache requires driver="netcdf", found driver="{self.driver}".')
         else:
             use_simplecache = False
 

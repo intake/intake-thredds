@@ -17,10 +17,7 @@ def test_init_catalog(thredds_cat_url):
 
     assert 'err.mnmean.v3.nc' in cat
 
-    cat = intake.open_thredds_cat(
-        thredds_cat_url,
-        metadata={'random_attribute': 'thredds'}
-    )
+    cat = intake.open_thredds_cat(thredds_cat_url, metadata={'random_attribute': 'thredds'})
     assert 'random_attribute' in cat.metadata
 
 
@@ -51,12 +48,10 @@ def test_entry(thredds_cat_url, driver):
 
 def test_entry_simplecache(thredds_cat_url):
     """Test allow simplecache:: in url if netcdf as source."""
-    import fsspec
     import os
-    fsspec.config.conf['simplecache'] = {
-        'cache_storage': 'my_caching_folder',
-        'same_names': True
-    }
+
+    import fsspec
+    fsspec.config.conf['simplecache'] = {'cache_storage': 'my_caching_folder', 'same_names': True}
     cat = intake.open_thredds_cat(f'simplecache::{thredds_cat_url}', driver='netcdf')
     entry = cat['err.mnmean.v3.nc']
     ds = entry(chunks={}).to_dask()
@@ -68,8 +63,5 @@ def test_entry_simplecache(thredds_cat_url):
 def test_entry_simplecache(thredds_cat_url):
     """Test no simplecache:: in url with opendap."""
     with pytest.raises(ValueError) as e:
-        cat = intake.open_thredds_cat(
-            f'simplecache::{thredds_cat_url}',
-            driver='opendap'
-        )
+        cat = intake.open_thredds_cat(f'simplecache::{thredds_cat_url}',driver='opendap')
     assert 'simplecache requires driver="netcdf"' in str(e.value)
