@@ -3,3 +3,4 @@ intake-xarray>=0.3
 intake>=0.6.0
 pydap
 siphon
+h5netcdf
