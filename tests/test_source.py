@@ -91,8 +91,7 @@ def test_THREDDSMergedSource_simplecache_netcdf(THREDDSMergedSource_cat_short_si
 
 def test_THREDDSMergedSource_simplecache_fails_opendap(THREDDSMergedSource_cat_short_url):
     """Test that THREDDSMergedSource simplecache:: in url with opendap."""
-    with pytest.raises(ValueError) as e:
+    with pytest.raises(ValueError, match=r'simplecache requires driver="netcdf"'):
         intake.open_thredds_cat(
             f'simplecache::{THREDDSMergedSource_cat_short_url}', driver='opendap'
         )
-    assert 'simplecache requires driver="netcdf"' in str(e.value)
