@@ -3,12 +3,15 @@ channels:
   - conda-forge
 dependencies:
   - python=*=*cp*
-  - aiohttp
+  - aiohttp>=3.7
   - codecov
-  - intake
-  - intake-xarray
+  - fsspec>=0.8.5
+  - h5netcdf>=0.8.1
+  - intake>=0.6.0
+  - intake-xarray>=0.3
   - netcdf4
   - pip
+  - pydap
   - pytest
   - pytest-cov
   - pytest-icdiff
@@ -16,6 +19,3 @@ dependencies:
   - siphon
   - tqdm
   - xarray
-  - pydap
-  - aiohttp
-  - h5netcdf
