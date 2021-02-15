@@ -17,7 +17,7 @@ class ThreddsCatalog(Catalog):
             if self.driver == 'netcdf':
                 self.cache = True
                 self.url_no_simplecache = self.url.replace('simplecache::', '')
-                self.metadata.update({'cache': 'simplecache::'})
+                self.metadata.update({'fsspec_pre_url': 'simplecache::'})
             else:
                 raise ValueError(
                     f'simplecache requires driver="netcdf", found driver="{self.driver}".'
@@ -53,8 +53,8 @@ class ThreddsCatalog(Catalog):
             elif self.driver == 'netcdf':
                 driver_for_access_urls = 'HTTPServer'
             url = ds.access_urls[driver_for_access_urls]
-            if 'cache' in self.metadata.keys():
-                url = f'{self.metadata["cache"]}{url}'
+            if 'fsspec_pre_url' in self.metadata.keys():
+                url = f'{self.metadata["fsspec_pre_url"]}{url}'
             return url
 
         self._entries.update(
