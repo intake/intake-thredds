@@ -15,10 +15,12 @@ This is a reference API class listing, and modules.
 ## Catalog & Source Objects
 
 ```{eval-rst}
-.. currentmodule:: intake_thredds.cat
+.. currentmodule:: intake_thredds
 .. automodule:: intake_thredds.cat
     :members:
 
+
 .. automodule:: intake_thredds.source
     :members:
+
 ```

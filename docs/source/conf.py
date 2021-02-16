@@ -68,6 +68,9 @@ autosummary_generate = []
 
 # Otherwise, the Return parameter list looks different from the Parameters list
 napoleon_use_rtype = False
+autodoc_typehints = 'none'
+napoleon_numpy_docstring = True
+napoleon_include_init_with_doc = True
 
 
 # Enable notebook execution

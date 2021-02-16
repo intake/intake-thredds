@@ -8,6 +8,7 @@ class ThreddsCatalog(Catalog):
 
     def __init__(self, url: str, driver: str = 'opendap', **kwargs):
         """Intake catalog interface to a thredds catalog.
+
         Parameters
         ----------
         url : str

@@ -17,22 +17,24 @@ class THREDDSMergedSource(DataSourceMixin):
     partition_access = True
 
     def __init__(self, url, path, driver='opendap', progressbar=True, metadata=None):
-        """
+        """Merges multiple datasets into a single datasets.
+
+        This source takes a THREDDS URL and a path to descend down, and calls the
+        combine function on all of the datasets found.
 
         Parameters
         ----------
         url : str
             Location of server
         path : list of str
-            Subcats to follow; include glob characters (*, ?) in here for
-            matching
+            Subcats to follow; include glob characters (*, ?) in here for matching.
         driver : str
             Select driver to access data. Choose from 'netcdf' and 'opendap'.
         progressbar : bool
             If True, will print a progress bar. Requires `tqdm <https://github.com/tqdm/tqdm>`__
             to be installed.
         metadata : dict or None
-            To associate with this source
+            To associate with this source.
         """
         super(THREDDSMergedSource, self).__init__(metadata=metadata)
         self.urlpath = url
