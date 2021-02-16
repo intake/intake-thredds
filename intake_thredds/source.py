@@ -11,31 +11,54 @@ except ImportError:
 
 
 class THREDDSMergedSource(DataSourceMixin):
+    """Merges multiple datasets into a single datasets.
+
+    This source takes a THREDDS URL and a path to descend down, and calls the
+    combine function on all of the datasets found.
+
+    Parameters
+    ----------
+    url : str
+        Location of server
+    path : list of str
+        Subcats to follow; include glob characters (*, ?) in here for matching.
+    driver : str
+        Select driver to access data. Choose from 'netcdf' and 'opendap'.
+    progressbar : bool
+        If True, will print a progress bar. Requires `tqdm <https://github.com/tqdm/tqdm>`__
+        to be installed.
+    metadata : dict or None
+        To associate with this source.
+
+    Examples
+    --------
+    >>> import intake
+    >>> cat_url = 'https://psl.noaa.gov/thredds/catalog.xml'
+    >>> paths = ['Datasets', 'ncep.reanalysis.dailyavgs', 'surface', 'air*sig995*194*.nc']
+    >>> src = intake.open_thredds_merged(cat_url, paths)
+    >>> src
+    sources:
+    thredds_merged:
+        args:
+        path:
+        - Datasets
+        - ncep.reanalysis.dailyavgs
+        - surface
+        - air*sig995*194*.nc
+        url: https://psl.noaa.gov/thredds/catalog.xml
+        description: ''
+        driver: intake_thredds.source.THREDDSMergedSource
+        metadata: {}
+
+    """
+
     version = '1.0'
     container = 'xarray'
     name = 'thredds_merged'
     partition_access = True
 
     def __init__(self, url, path, driver='opendap', progressbar=True, metadata=None):
-        """Merges multiple datasets into a single datasets.
 
-        This source takes a THREDDS URL and a path to descend down, and calls the
-        combine function on all of the datasets found.
-
-        Parameters
-        ----------
-        url : str
-            Location of server
-        path : list of str
-            Subcats to follow; include glob characters (*, ?) in here for matching.
-        driver : str
-            Select driver to access data. Choose from 'netcdf' and 'opendap'.
-        progressbar : bool
-            If True, will print a progress bar. Requires `tqdm <https://github.com/tqdm/tqdm>`__
-            to be installed.
-        metadata : dict or None
-            To associate with this source.
-        """
         super(THREDDSMergedSource, self).__init__(metadata=metadata)
         self.urlpath = url
         if 'simplecache::' in url:
