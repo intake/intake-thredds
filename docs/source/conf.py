@@ -43,9 +43,18 @@ extensions = [
     'sphinx.ext.intersphinx',
     'IPython.sphinxext.ipython_console_highlighting',
     'IPython.sphinxext.ipython_directive',
-    'nbsphinx',
     'sphinx.ext.napoleon',
+    'myst_parser',
 ]
+
+autodoc_member_order = 'groupwise'
+
+myst_enable_extensions = ['colon_fence', 'dollarmath', 'amsmath', 'deflist', 'html_image']
+
+myst_url_schemes = ('http', 'https', 'mailto')
+myst_heading_anchors = 2
+panels_add_boostrap_css = False
+
 
 extlinks = {
     'issue': ('https://github.com/NCAR/intake-thredds/issues/%s', 'GH#'),
@@ -72,7 +81,7 @@ nbsphinx_timeout = -1
 
 
 # The suffix of source filenames.
-source_suffix = '.rst'
+source_suffix = ['.rst', '.md']
 
 # The encoding of source files.
 # source_encoding = 'utf-8-sig'
@@ -136,7 +145,7 @@ pygments_style = 'sphinx'
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'sphinx_rtd_theme'
+html_theme = 'pydata_sphinx_theme'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -155,8 +164,21 @@ html_theme = 'sphinx_rtd_theme'
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
-html_logo = 'images/nsf.png'
-html_theme_options = {'logo_only': False, 'style_nav_header_background': '#28938d'}
+html_logo = 'images/NSF_4-Color_bitmap_Logo.png'
+
+html_context = {
+    'github_user': 'NCAR',
+    'github_repo': 'intake-thredds',
+    'github_version': 'master',
+    'doc_path': 'docs',
+}
+html_theme_options = {
+    'github_url': 'https://github.com/NCAR/intake-thredds',
+    'twitter_url': 'https://twitter.com/NCARXDev',
+    'show_toc_level': 1,
+}
+html_last_updated_fmt = '%b %d, %Y'
+
 
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
