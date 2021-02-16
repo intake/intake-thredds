@@ -74,13 +74,7 @@ napoleon_include_init_with_doc = True
 
 
 # Enable notebook execution
-# https://nbsphinx.readthedocs.io/en/0.4.2/never-execute.html
-# nbsphinx_execute = 'auto'
-# Allow errors in all notebooks by
-nbsphinx_allow_errors = True
-
-# Disable cell timeout
-nbsphinx_timeout = -1
+jupyter_execute_notebooks = 'auto'
 
 
 # The suffix of source filenames.

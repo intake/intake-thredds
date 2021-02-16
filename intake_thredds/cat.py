@@ -83,7 +83,7 @@ class ThreddsCatalog(Catalog):
                     'THREDDS data',
                     self.driver,
                     True,
-                    {'urlpath': access_urls(ds, self), 'chunks': None},
+                    {'urlpath': access_urls(ds, self), 'chunks': {}},
                     [],
                     [],
                     {},
