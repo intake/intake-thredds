@@ -16,7 +16,7 @@ class THREDDSMergedSource(DataSourceMixin):
     name = 'thredds_merged'
     partition_access = True
 
-    def __init__(self, url, path, progressbar=True, metadata=None):
+    def __init__(self, url, path, driver='opendap', progressbar=True, metadata=None):
         """
 
         Parameters
@@ -26,6 +26,8 @@ class THREDDSMergedSource(DataSourceMixin):
         path : list of str
             Subcats to follow; include glob characters (*, ?) in here for
             matching
+        driver : str
+            Select driver to access data. Choose from 'netcdf' and 'opendap'.
         progressbar : bool
             If True, will print a progress bar. Requires `tqdm <https://github.com/tqdm/tqdm>`__
             to be installed.
@@ -34,7 +36,10 @@ class THREDDSMergedSource(DataSourceMixin):
         """
         super(THREDDSMergedSource, self).__init__(metadata=metadata)
         self.urlpath = url
+        if 'simplecache::' in url:
+            self.metadata.update({'fsspec_pre_url': 'simplecache::'})
         self.path = path
+        self.driver = driver
         self._ds = None
         self.progressbar = progressbar
         if self.progressbar and tqdm is None:
@@ -44,11 +49,11 @@ class THREDDSMergedSource(DataSourceMixin):
         import xarray as xr
 
         if self._ds is None:
-            cat = ThreddsCatalog(self.urlpath)
+            cat = ThreddsCatalog(self.urlpath, driver=self.driver)
             for i in range(len(self.path)):
                 part = self.path[i]
                 if '*' not in part and '?' not in part:
-                    cat = cat[part]()
+                    cat = cat[part](driver=self.driver)
                 else:
                     break
             path = self.path[i:]

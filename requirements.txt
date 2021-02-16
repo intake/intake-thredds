@@ -1,5 +1,7 @@
 aiohttp>=3.7
 intake-xarray>=0.3
 intake>=0.6.0
+fsspec >=0.8.5
 pydap
 siphon
+h5netcdf>=0.8.1

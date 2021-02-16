@@ -1,29 +1,97 @@
 import intake
 import pytest
+import xarray as xr
 
 
 @pytest.fixture(scope='module')
-def thredds_cat_url():
-    return 'http://dap.nci.org.au/thredds/catalog.xml'
-
-
-def test_thredds_merge(thredds_cat_url):
+def THREDDSMergedSource_cat():
+    """THREDDSMergedSource looping through folders."""
+    thredds_cat_url = 'https://psl.noaa.gov/thredds/catalog.xml'
     paths = [
-        'eMAST TERN',
-        'eMAST TERN - files',
-        'ASCAT',
-        'ASCAT_v1-0_soil-moisture_daily_0-05deg_2007-2011',
-        '00000000',
-        '*12.nc',  # to speed up only takes all december files
+        'Datasets',
+        'ncep.reanalysis.dailyavgs',
+        'surface',
+        'air*sig995*194*.nc',  # todo: convert . to * ?
     ]
     cat = intake.open_thredds_merged(thredds_cat_url, paths)
     assert cat.urlpath == thredds_cat_url
     assert cat.path == paths
+    return cat
 
+
+@pytest.fixture(scope='module')
+def THREDDSMergedSource_cat_short_url():
+    return 'https://psl.noaa.gov/thredds/catalog/Datasets/ncep.reanalysis.dailyavgs/surface/catalog.xml'
+
+
+@pytest.fixture(scope='module')
+def THREDDSMergedSource_cat_short_path():
+    return ['air.sig995*194*.nc']  # todo: convert . to * ?
+
+
+@pytest.fixture(scope='module')
+def THREDDSMergedSource_cat_short(
+    THREDDSMergedSource_cat_short_url, THREDDSMergedSource_cat_short_path
+):
+    """THREDDSMergedSource without the looping faster."""
+    cat = intake.open_thredds_merged(
+        THREDDSMergedSource_cat_short_url, THREDDSMergedSource_cat_short_path
+    )
+    assert cat.urlpath == THREDDSMergedSource_cat_short_url
+    assert cat.path == THREDDSMergedSource_cat_short_path
+    return cat
+
+
+@pytest.fixture(scope='module')
+def THREDDSMergedSource_cat_short_simplecache(
+    THREDDSMergedSource_cat_short_url, THREDDSMergedSource_cat_short_path
+):
+    """Without the looping faster."""
+    return intake.open_thredds_merged(
+        f'simplecache::{THREDDSMergedSource_cat_short_url}',
+        THREDDSMergedSource_cat_short_path,
+        driver='netcdf',
+    )
+
+
+def test_THREDDSMergedSource(THREDDSMergedSource_cat):
+    cat = THREDDSMergedSource_cat
     ds = cat.to_dask()
-    assert dict(ds.dims) == {'lat': 681, 'lon': 841, 'time': 155}
+    assert dict(ds.dims) == {'lat': 73, 'lon': 144, 'time': 731}
     d = cat.discover()
     assert set(d['metadata']['coords']) == set(('lat', 'lon', 'time'))
-    assert set(d['metadata']['data_vars'].keys()) == set(
-        ['crs', 'lwe_thickness_of_soil_moisture_content']
-    )
+    assert set(d['metadata']['data_vars'].keys()) == set(['air'])
+
+
+def test_THREDDSMergedSource_long_short(THREDDSMergedSource_cat, THREDDSMergedSource_cat_short):
+    ds = THREDDSMergedSource_cat.to_dask()
+    ds_short = THREDDSMergedSource_cat_short.to_dask()
+    xr.testing.assert_equal(ds, ds_short)  # TODO: down load data only compare dims, coords, size
+
+
+def test_THREDDSMergedSource_simplecache_netcdf(THREDDSMergedSource_cat_short_simplecache):
+    """Test that THREDDSMergedSource allows simplecache:: in url if netcdf as source."""
+    import os
+
+    import fsspec
+
+    cache_storage = 'my_caching_folder'
+    fsspec.config.conf['simplecache'] = {'cache_storage': cache_storage, 'same_names': True}
+    cat = THREDDSMergedSource_cat_short_simplecache
+    ds = cat.to_dask()
+    assert isinstance(ds, xr.Dataset)
+    # test files present
+    cached_files = ['air.sig995.1948.nc', 'air.sig995.1949.nc']
+    for f in cached_files:
+        cached_file = os.path.join(cache_storage, f)
+        assert os.path.exists(cached_file)
+        os.remove(cached_file)
+        assert not os.path.exists(cached_file)
+
+
+def test_THREDDSMergedSource_simplecache_fails_opendap(THREDDSMergedSource_cat_short_url):
+    """Test that THREDDSMergedSource simplecache:: in url with opendap."""
+    with pytest.raises(ValueError, match=r'simplecache requires driver="netcdf"'):
+        intake.open_thredds_cat(
+            f'simplecache::{THREDDSMergedSource_cat_short_url}', driver='opendap'
+        )

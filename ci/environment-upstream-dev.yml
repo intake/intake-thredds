@@ -2,19 +2,21 @@ name: intake-thredds-dev
 channels:
   - conda-forge
 dependencies:
+  - python=*=*cp*
   - aiohttp
   - codecov
-  - intake-xarray
+  - fsspec>=0.8.5
+  - h5netcdf>=0.8.1
+  - intake-xarray>=0.3
   - netcdf4
   - pip
+  - pydap
   - pytest
   - pytest-cov
   - pytest-icdiff
   - pytest-xdist
   - tqdm
   - xarray
-  - pydap
-  - aiohttp
   - pip:
       - git+https://github.com/intake/intake.git
       - git+https://github.com/Unidata/siphon.git
