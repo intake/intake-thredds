@@ -13,6 +13,7 @@ If you encounter any errors or problems with **intake-thredds**, please open an 
 maxdepth: 2
 ---
 installation.md
+api.md
 contributing.md
 changelog.md
 ```

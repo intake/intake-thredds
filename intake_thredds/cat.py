@@ -3,12 +3,24 @@ from intake.catalog.local import LocalCatalogEntry
 
 
 class ThreddsCatalog(Catalog):
+
     name = 'thredds_cat'
 
-    def __init__(self, url, driver='opendap', **kwargs):
+    def __init__(self, url: str, driver: str = 'opendap', **kwargs):
+        """
+        Parameters
+        ----------
+        url : str
+            Location of thredds catalog.
+        driver : str
+            Select driver to access data. Choose from 'netcdf' and 'opendap'.
+        **kwargs :
+            Additional keyword arguments are passed through to the
+            :py:class:`~intake.catalog.Catalog` base class.
+        """
+        super(ThreddsCatalog, self).__init__(**kwargs)
         self.url = url
         self.driver = driver
-        super().__init__(**kwargs)
 
     def _load(self):
         from siphon.catalog import TDSCatalog
