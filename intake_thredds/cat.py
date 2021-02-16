@@ -7,7 +7,7 @@ class ThreddsCatalog(Catalog):
     name = 'thredds_cat'
 
     def __init__(self, url: str, driver: str = 'opendap', **kwargs):
-        """
+        """Intake catalog interface to a thredds catalog.
         Parameters
         ----------
         url : str
@@ -18,9 +18,9 @@ class ThreddsCatalog(Catalog):
             Additional keyword arguments are passed through to the
             :py:class:`~intake.catalog.Catalog` base class.
         """
-        super(ThreddsCatalog, self).__init__(**kwargs)
         self.url = url
         self.driver = driver
+        super().__init__(**kwargs)
 
     def _load(self):
         from siphon.catalog import TDSCatalog
