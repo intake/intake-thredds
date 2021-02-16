@@ -1,11 +1,7 @@
 name: CI
 on:
   push:
-    branches:
-      - '*'
   pull_request:
-    branches:
-      - '*'
   schedule:
     - cron: '0 0 * * *' # Daily “At 00:00”
   workflow_dispatch: # allows you to trigger manually
@@ -13,6 +9,7 @@ on:
 jobs:
   build:
     name: python-${{ matrix.python-version }}
+    if: github.repository == 'NCAR/intake-thredds'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -22,6 +19,10 @@ jobs:
       matrix:
         python-version: ['3.7', '3.8', '3.9']
     steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.8.0
+        with:
+          access_token: ${{ github.token }}
       - uses: actions/checkout@v2
       - uses: conda-incubator/setup-miniconda@v2
         with:
@@ -31,11 +32,11 @@ jobs:
           activate-environment: intake-thredds-dev
           auto-update-conda: false
           python-version: ${{ matrix.python-version }}
+          environment-file: ci/environment.yml
 
-      - name: Set up conda environment
+      - name: Install intake-thredds
         run: |
-          mamba env update -f ci/environment.yml
-          python -m pip install .
+          python -m pip install . --no-deps
           conda list
 
       - name: Run Tests
@@ -54,10 +55,15 @@ jobs:
   upstream-dev:
     name: upstream-dev
     runs-on: ubuntu-latest
+    if: github.repository == 'NCAR/intake-thredds'
     defaults:
       run:
         shell: bash -l {0}
     steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.8.0
+        with:
+          access_token: ${{ github.token }}
       - uses: actions/checkout@v2
       - uses: conda-incubator/setup-miniconda@v2
         with:
@@ -67,10 +73,10 @@ jobs:
           activate-environment: intake-thredds-dev
           auto-update-conda: false
           python-version: 3.8
-      - name: Set up conda environment
+          environment-file: ci/environment-upstream-dev.yml
+      - name: Install intake-thredds
         run: |
-          mamba env update -f ci/environment-upstream-dev.yml
-          python -m pip install .
+          python -m pip install . --no-deps
           conda list
 
       - name: Run Tests
