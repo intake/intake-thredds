@@ -5,4 +5,5 @@ pydata-sphinx-theme>=0.4.3
 setuptools>=50.3
 sphinx>=3.2
 jupyterlab>=3
+tqdm
 -r ../requirements.txt

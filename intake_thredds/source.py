@@ -68,7 +68,11 @@ class THREDDSMergedSource(DataSourceMixin):
         self._ds = None
         self.progressbar = progressbar
         if self.progressbar and tqdm is None:
-            raise ValueError("Missing package 'tqdm' required for progress bars.")
+            raise ValueError(
+                "Missing package 'tqdm' required for progress bars."
+                'You can install tqdm via (1) python -m pip install tqdm or (2) conda install -c conda-forge tqdm.'
+                "In case you don't want to install tqdm, please use `progressbar=False`."
+            )
 
     def _open_dataset(self):
         import xarray as xr
