@@ -11,7 +11,7 @@ def THREDDSMergedSource_cat():
         'Datasets',
         'ncep.reanalysis.dailyavgs',
         'surface',
-        'air*sig995*194*.nc',  # todo: convert . to * ?
+        'air.sig995.194*.nc',
     ]
     cat = intake.open_thredds_merged(thredds_cat_url, paths)
     assert cat.urlpath == thredds_cat_url
@@ -26,7 +26,7 @@ def THREDDSMergedSource_cat_short_url():
 
 @pytest.fixture(scope='module')
 def THREDDSMergedSource_cat_short_path():
-    return ['air.sig995*194*.nc']  # todo: convert . to * ?
+    return ['air.sig995.194*.nc']
 
 
 @pytest.fixture(scope='module')
@@ -66,7 +66,7 @@ def test_THREDDSMergedSource(THREDDSMergedSource_cat):
 def test_THREDDSMergedSource_long_short(THREDDSMergedSource_cat, THREDDSMergedSource_cat_short):
     ds = THREDDSMergedSource_cat.to_dask()
     ds_short = THREDDSMergedSource_cat_short.to_dask()
-    xr.testing.assert_equal(ds, ds_short)  # TODO: down load data only compare dims, coords, size
+    xr.testing.assert_equal(ds, ds_short)  # download data, now faster only compare dims, coords, size
 
 
 def test_THREDDSMergedSource_simplecache_netcdf(THREDDSMergedSource_cat_short_simplecache):
