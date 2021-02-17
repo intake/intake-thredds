@@ -3,9 +3,28 @@ from intake.catalog.local import LocalCatalogEntry
 
 
 class ThreddsCatalog(Catalog):
+    """Intake catalog interface to a thredds catalog.
+
+    Parameters
+    ----------
+    url : str
+        Location of thredds catalog.
+    driver : str
+        Select driver to access data. Choose from 'netcdf' and 'opendap'.
+    **kwargs :
+        Additional keyword arguments are passed through to the
+        :py:class:`~intake.catalog.Catalog` base class.
+
+    Examples
+    --------
+    >>> import intake
+    >>> cat_url = 'https://psl.noaa.gov/thredds/catalog/Datasets/noaa.ersst/catalog.xml'
+    >>> cat = intake.open_thredds_cat(cat_url)
+    """
+
     name = 'thredds_cat'
 
-    def __init__(self, url, driver='opendap', **kwargs):
+    def __init__(self, url: str, driver: str = 'opendap', **kwargs):
         self.url = url
         self.driver = driver
         super().__init__(**kwargs)
@@ -27,7 +46,8 @@ class ThreddsCatalog(Catalog):
             self.url_no_simplecache = self.url
 
         self.cat = TDSCatalog(self.url_no_simplecache)
-        self.name = self.cat.catalog_name
+        if self.name is None:
+            self.name = self.cat.catalog_name
         self.metadata.update(self.cat.metadata)
 
         # sub-cats
@@ -64,7 +84,7 @@ class ThreddsCatalog(Catalog):
                     'THREDDS data',
                     self.driver,
                     True,
-                    {'urlpath': access_urls(ds, self), 'chunks': None},
+                    {'urlpath': access_urls(ds, self), 'chunks': {}},
                     [],
                     [],
                     {},

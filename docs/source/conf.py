@@ -44,7 +44,7 @@ extensions = [
     'IPython.sphinxext.ipython_console_highlighting',
     'IPython.sphinxext.ipython_directive',
     'sphinx.ext.napoleon',
-    'myst_parser',
+    'myst_nb',
 ]
 
 autodoc_member_order = 'groupwise'
@@ -68,16 +68,13 @@ autosummary_generate = []
 
 # Otherwise, the Return parameter list looks different from the Parameters list
 napoleon_use_rtype = False
+autodoc_typehints = 'none'
+napoleon_numpy_docstring = True
+napoleon_include_init_with_doc = True
 
 
 # Enable notebook execution
-# https://nbsphinx.readthedocs.io/en/0.4.2/never-execute.html
-# nbsphinx_execute = 'auto'
-# Allow errors in all notebooks by
-nbsphinx_allow_errors = True
-
-# Disable cell timeout
-nbsphinx_timeout = -1
+jupyter_execute_notebooks = 'auto'
 
 
 # The suffix of source filenames.

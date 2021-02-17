@@ -13,6 +13,8 @@ If you encounter any errors or problems with **intake-thredds**, please open an 
 maxdepth: 2
 ---
 installation.md
+tutorial.ipynb
+api.md
 contributing.md
 changelog.md
 ```
