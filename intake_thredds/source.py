@@ -34,7 +34,7 @@ class THREDDSMergedSource(DataSourceMixin):
     --------
     >>> import intake
     >>> cat_url = 'https://psl.noaa.gov/thredds/catalog.xml'
-    >>> paths = ['Datasets', 'ncep.reanalysis.dailyavgs', 'surface', 'air*sig995*194*.nc']
+    >>> paths = ['Datasets', 'ncep.reanalysis.dailyavgs', 'surface', 'air.sig995.194*.nc']
     >>> src = intake.open_thredds_merged(cat_url, paths)
     >>> src
     sources:
