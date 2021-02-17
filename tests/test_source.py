@@ -66,7 +66,9 @@ def test_THREDDSMergedSource(THREDDSMergedSource_cat):
 def test_THREDDSMergedSource_long_short(THREDDSMergedSource_cat, THREDDSMergedSource_cat_short):
     ds = THREDDSMergedSource_cat.to_dask()
     ds_short = THREDDSMergedSource_cat_short.to_dask()
-    xr.testing.assert_equal(ds, ds_short)  # download data, now faster only compare dims, coords, size
+    xr.testing.assert_equal(
+        ds, ds_short
+    )  # downloads data now, faster only compare dims, coords, size
 
 
 def test_THREDDSMergedSource_simplecache_netcdf(THREDDSMergedSource_cat_short_simplecache):
