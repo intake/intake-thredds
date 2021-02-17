@@ -68,7 +68,7 @@ def test_THREDDSMergedSource_long_short(THREDDSMergedSource_cat, THREDDSMergedSo
     ds_short = THREDDSMergedSource_cat_short.to_dask()
     for c in ds.coords:
         assert (ds[c] == ds_short[c]).all()
-        assert ds.size == ds_short.size
+    assert ds.sizes == ds_short.sizes
 
 
 def test_THREDDSMergedSource_simplecache_netcdf(THREDDSMergedSource_cat_short_simplecache):
