@@ -1,0 +1,10 @@
+Pygments>=2.6
+myst-parser
+myst-nb>=0.11.1
+pydata-sphinx-theme>=0.4.3
+setuptools>=50.3
+sphinx>=3.2
+jupyterlab>=3
+tqdm
+dask[complete]
+-r ../requirements.txt

@@ -1,7 +1,6 @@
-version: 2
-
-build:
-  image: latest
-
-conda:
-  environment: docs/environment.yml
+python:
+  version: 3
+  setup_py_install: true
+  system_packages: true
+  install:
+    - requirements: docs/requirements.txt
