@@ -6,4 +6,5 @@ setuptools>=50.3
 sphinx>=3.2
 jupyterlab>=3
 tqdm
+msgpack
 -r ../requirements.txt

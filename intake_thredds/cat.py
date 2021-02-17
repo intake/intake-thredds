@@ -46,7 +46,8 @@ class ThreddsCatalog(Catalog):
             self.url_no_simplecache = self.url
 
         self.cat = TDSCatalog(self.url_no_simplecache)
-        self.name = self.cat.catalog_name
+        if self.name is None:
+            self.name = self.cat.catalog_name
         self.metadata.update(self.cat.metadata)
 
         # sub-cats
