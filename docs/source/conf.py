@@ -74,7 +74,7 @@ napoleon_include_init_with_doc = True
 
 
 # Enable notebook execution
-jupyter_execute_notebooks = 'auto'
+jupyter_execute_notebooks = 'off'
 
 
 # The suffix of source filenames.
