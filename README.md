@@ -2,7 +2,7 @@
 
 - [intake-thredds](#intake-thredds)
   - [Badges](#badges)
-  - [Installation (COMING SOON)](#installation-coming-soon)
+  - [Installation](#installation)
 
 ## Badges
 
@@ -14,7 +14,7 @@
 
 Intake interface to THREDDS data catalogs.
 
-## Installation (COMING SOON)
+## Installation
 
 Intake-thredds can be installed from PyPI with pip:
 
