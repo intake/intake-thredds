@@ -25,7 +25,7 @@ def test_ThreddsCatalog_init_catalog(thredds_cat_url):
 
 @pytest.mark.parametrize('decode_times', [True, False])
 @pytest.mark.parametrize('driver', ['netcdf', 'opendap'])
-def test_ThreddsCatalog(thredds_cat_url, driver):
+def test_ThreddsCatalog(thredds_cat_url, driver, decode_times):
     """Test entry.to_dask() is xr.Dataset and allows opendap and netcdf as source."""
     cat = intake.open_thredds_cat(thredds_cat_url, driver=driver, decode_times=decode_times)
     entry = cat['sst.mon.19712000.ltm.v3.nc']
