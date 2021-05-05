@@ -57,7 +57,7 @@ class THREDDSMergedSource(DataSourceMixin):
     name = 'thredds_merged'
     partition_access = True
 
-    def __init__(self, url, path, driver='opendap', progressbar=True, metadata=None):
+    def __init__(self, url, path, driver='opendap', progressbar=True, xarray_kwargs={}, metadata=None):
 
         super(THREDDSMergedSource, self).__init__(metadata=metadata)
         self.urlpath = url
@@ -65,6 +65,7 @@ class THREDDSMergedSource(DataSourceMixin):
             self.metadata.update({'fsspec_pre_url': 'simplecache::'})
         self.path = path
         self.driver = driver
+        self.xarray_kwargs = xarray_kwargs
         self._ds = None
         self.progressbar = progressbar
         if self.progressbar and tqdm is None:
