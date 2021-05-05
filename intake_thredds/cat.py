@@ -28,9 +28,9 @@ class ThreddsCatalog(Catalog):
         self.url = url
         self.driver = driver
         if "decode_times" in kwargs:
-            self.xarray_kwargs = {"decode_times": kwargs["decode_times"]}
+            self.xarray_kwargs = {"xarray_kwargs": {"decode_times": kwargs["decode_times"]}}
         else:
-            self.xarray_kwargs = None
+            self.xarray_kwargs = {}
         super().__init__(**kwargs)
 
     def _load(self):
