@@ -47,6 +47,11 @@ def test_ThreddsCatalog(thredds_cat_url, driver, decode_times):
     )
     ds = entry(chunks={}).to_dask()
     assert isinstance(ds, xr.Dataset)
+    # check xarray_kwargs
+    if decode_times:
+        assert 'units' not in ds.time.attrs
+    else:
+        assert 'units' in ds.time.attrs
 
 
 def test_ThreddsCatalog_simplecache_netcdf(thredds_cat_url):

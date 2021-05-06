@@ -1,5 +1,11 @@
 # Changelog
 
+## Intake-thredds v2021.x.xx
+
+### Features
+
+- Allow `xarray_kwargs` for :py:class:`~intake_thredds.THREDDSMergedSource` [#32](https://github.com/NCAR/intake-thredds/pull/32) ([@aaronspring](https://github.com/aaronspring))
+
 ## Intake-thredds v2021.2.17
 
 ([full changelog](https://github.com/NCAR/intake-thredds/compare/792fdc08e7fbbf66455fe554ca9a0f1f8a14ae32...ccb3c469a07cc7adf058ce0f8ba41197ebc5b7c7))

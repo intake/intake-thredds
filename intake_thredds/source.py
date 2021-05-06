@@ -57,7 +57,9 @@ class THREDDSMergedSource(DataSourceMixin):
     name = 'thredds_merged'
     partition_access = True
 
-    def __init__(self, url, path, driver='opendap', progressbar=True, xarray_kwargs={}, metadata=None):
+    def __init__(
+        self, url, path, driver='opendap', progressbar=True, xarray_kwargs={}, metadata=None
+    ):
 
         super(THREDDSMergedSource, self).__init__(metadata=metadata)
         self.urlpath = url
@@ -88,9 +90,12 @@ class THREDDSMergedSource(DataSourceMixin):
                     break
             path = self.path[i:]
             if self.progressbar:
-                data = [ds(**self.xarray_kwargs).to_dask() for ds in tqdm(_match(cat, path), desc='Dataset(s)', ncols=79)]
+                data = [
+                    ds(xarray_kwargs=self.xarray_kwargs).to_dask()
+                    for ds in tqdm(_match(cat, path), desc='Dataset(s)', ncols=79)
+                ]
             else:
-                data = [ds(**self.xarray_kwargs).to_dask() for ds in _match(cat, path)]
+                data = [ds(xarray_kwargs=self.xarray_kwargs).to_dask() for ds in _match(cat, path)]
             self._ds = xr.combine_by_coords(data, combine_attrs='override')
 
 
