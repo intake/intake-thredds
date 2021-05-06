@@ -23,11 +23,10 @@ def test_ThreddsCatalog_init_catalog(thredds_cat_url):
     assert 'random_attribute' in cat.metadata
 
 
-@pytest.mark.parametrize('decode_times', [True, False])
 @pytest.mark.parametrize('driver', ['netcdf', 'opendap'])
-def test_ThreddsCatalog(thredds_cat_url, driver, decode_times):
+def test_ThreddsCatalog(thredds_cat_url, driver):
     """Test entry.to_dask() is xr.Dataset and allows opendap and netcdf as source."""
-    cat = intake.open_thredds_cat(thredds_cat_url, driver=driver, decode_times=decode_times)
+    cat = intake.open_thredds_cat(thredds_cat_url, driver=driver)
     entry = cat['sst.mon.19712000.ltm.v3.nc']
     if driver == 'opendap':
         assert isinstance(entry, intake_xarray.opendap.OpenDapSource)
@@ -47,11 +46,6 @@ def test_ThreddsCatalog(thredds_cat_url, driver, decode_times):
     )
     ds = entry(chunks={}).to_dask()
     assert isinstance(ds, xr.Dataset)
-    # check xarray_kwargs
-    if decode_times:
-        assert 'units' not in ds.time.attrs
-    else:
-        assert 'units' in ds.time.attrs
 
 
 def test_ThreddsCatalog_simplecache_netcdf(thredds_cat_url):

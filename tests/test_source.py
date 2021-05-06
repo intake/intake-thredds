@@ -97,3 +97,19 @@ def test_THREDDSMergedSource_simplecache_fails_opendap(THREDDSMergedSource_cat_s
         intake.open_thredds_cat(
             f'simplecache::{THREDDSMergedSource_cat_short_url}', driver='opendap'
         )
+
+
+@pytest.mark.parametrize('driver', ['netcdf', 'opendap'])
+@pytest.mark.parametrize('decode_times', [True, False])
+def test_THREDDSMergedSource_xarray_kwargs(THREDDSMergedSource_cat_short_url, driver, decode_times):
+    """Test xarray_kwargs."""
+    ds = intake.open_thredds_cat(
+        THREDDSMergedSource_cat_short_url,
+        driver='opendap',
+        xarray_kwargs={'decode_times': decode_times},
+    ).to_dask()
+    # check xarray_kwargs
+    if decode_times:
+        assert 'units' not in ds.time.attrs
+    else:
+        assert 'units' in ds.time.attrs
