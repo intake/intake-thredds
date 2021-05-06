@@ -91,11 +91,11 @@ class THREDDSMergedSource(DataSourceMixin):
             path = self.path[i:]
             if self.progressbar:
                 data = [
-                    ds(xarray_kwargs=self.xarray_kwargs).to_dask()
+                    ds(**self.xarray_kwargs).to_dask()
                     for ds in tqdm(_match(cat, path), desc='Dataset(s)', ncols=79)
                 ]
             else:
-                data = [ds(xarray_kwargs=self.xarray_kwargs).to_dask() for ds in _match(cat, path)]
+                data = [ds(**self.xarray_kwargs).to_dask() for ds in _match(cat, path)]
             self._ds = xr.combine_by_coords(data, combine_attrs='override')
 
 

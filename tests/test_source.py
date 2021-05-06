@@ -103,9 +103,15 @@ def test_THREDDSMergedSource_simplecache_fails_opendap(THREDDSMergedSource_cat_s
 @pytest.mark.parametrize('decode_times', [True, False])
 def test_THREDDSMergedSource_xarray_kwargs(THREDDSMergedSource_cat_short_url, driver, decode_times):
     """Test xarray_kwargs."""
-    ds = intake.open_thredds_cat(
-        THREDDSMergedSource_cat_short_url,
-        driver='opendap',
+    ds = intake.open_thredds_merged(
+        'https://psl.noaa.gov/thredds/catalog.xml',
+        [
+            'Datasets',
+            'ncep.reanalysis.dailyavgs',
+            'surface',
+            'air.sig995.194*.nc',
+        ],
+        driver=driver,
         xarray_kwargs={'decode_times': decode_times},
     ).to_dask()
     # check xarray_kwargs
