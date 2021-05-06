@@ -89,6 +89,10 @@ class THREDDSMergedSource(DataSourceMixin):
                 else:
                     break
             path = self.path[i:]
+            if "concat_dim" in xarray_kwargs:
+                concat_dim = xarray_kwargs.pop("concat_dim")
+            else:
+                concat_dim = None
             if self.progressbar:
                 data = [
                     ds(xarray_kwargs=self.xarray_kwargs).to_dask()
@@ -96,7 +100,10 @@ class THREDDSMergedSource(DataSourceMixin):
                 ]
             else:
                 data = [ds(xarray_kwargs=self.xarray_kwargs).to_dask() for ds in _match(cat, path)]
-            self._ds = xr.combine_by_coords(data, combine_attrs='override')
+            if concat_dim:
+                self._ds = xr.concat(data, concat_dim)
+            else:
+                self._ds = xr.combine_by_coords(data, combine_attrs='override')
 
 
 def _match(cat, patterns):
