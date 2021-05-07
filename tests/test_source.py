@@ -123,11 +123,12 @@ def test_THREDDSMergedSource_xarray_kwargs(THREDDSMergedSource_cat_short_url, dr
 
 def test_concat_dim():
     url = "simplecache::https://www.ncei.noaa.gov/thredds/catalog/model-gefs-003/202008/20200831/catalog.xml"
-    cat = intake.open_thredds_merged(url, ['NCEP gens-a Grid 3 Member-Forecast 16-372 for 2020-08-31*'], driver='netcdf', xarray_kwargs=dict(
+    ds = intake.open_thredds_merged(url, ['NCEP gens-a Grid 3 Member-Forecast 16-372 for 2020-08-31*'], driver='netcdf', xarray_kwargs=dict(
         engine="cfgrib",
         concat_dim='member',
         backend_kwargs=dict(
             filter_by_keys={"typeOfLevel": "heightAboveGround", "shortName": "2t"}
         ),
     )
-    )
+    ).to_dask()
+    assert 'member' in ds.dims
