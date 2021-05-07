@@ -89,8 +89,8 @@ class THREDDSMergedSource(DataSourceMixin):
                 else:
                     break
             path = self.path[i:]
-            if "concat_dim" in xarray_kwargs:
-                concat_dim = xarray_kwargs.pop("concat_dim")
+            if "concat_dim" in self.xarray_kwargs:
+                concat_dim = self.xarray_kwargs.pop("concat_dim")
             else:
                 concat_dim = None
             if self.progressbar:
