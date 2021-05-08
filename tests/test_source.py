@@ -132,11 +132,11 @@ def test_concat_dim():
         driver='netcdf',
         xarray_kwargs=dict(
             engine='cfgrib',
-            concat_dim='number',
             backend_kwargs=dict(
                 filter_by_keys={'typeOfLevel': 'heightAboveGround', 'shortName': '2t'}
             ),
         ),
+        concat_kwargs=dict(dim='number'),
     ).to_dask()
     assert 'number' in ds.dims
     assert 11 in ds.number
