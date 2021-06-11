@@ -10,6 +10,7 @@ dependencies:
   - intake-xarray>=0.3
   - netcdf4
   - pip
+  - pre-commit
   - pydap
   - pytest
   - pytest-cov
