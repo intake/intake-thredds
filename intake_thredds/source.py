@@ -1,13 +1,9 @@
 import fnmatch
 
 from intake_xarray.base import DataSourceMixin
+from tqdm import tqdm
 
 from .cat import ThreddsCatalog
-
-try:
-    from tqdm import tqdm
-except ImportError:
-    tqdm = None
 
 
 class THREDDSMergedSource(DataSourceMixin):
@@ -29,9 +25,6 @@ class THREDDSMergedSource(DataSourceMixin):
     concat_kwargs: dict
         kwargs to be passed to xr.concat() filled by files opened by xr.open_dataset
         previously
-    progressbar : bool
-        If True, will print a progress bar. Requires `tqdm <https://github.com/tqdm/tqdm>`__
-        to be installed.
     metadata : dict or None
         To associate with this source.
 
@@ -67,7 +60,6 @@ class THREDDSMergedSource(DataSourceMixin):
         url,
         path,
         driver='opendap',
-        progressbar=True,
         xarray_kwargs={},
         concat_kwargs=None,
         metadata=None,
@@ -82,13 +74,6 @@ class THREDDSMergedSource(DataSourceMixin):
         self.xarray_kwargs = xarray_kwargs
         self.concat_kwargs = concat_kwargs
         self._ds = None
-        self.progressbar = progressbar
-        if self.progressbar and tqdm is None:
-            raise ValueError(
-                "Missing package 'tqdm' required for progress bars."
-                'You can install tqdm via (1) python -m pip install tqdm or (2) conda install -c conda-forge tqdm.'
-                "In case you don't want to install tqdm, please use `progressbar=False`."
-            )
 
     def _open_dataset(self):
         import xarray as xr
@@ -102,13 +87,10 @@ class THREDDSMergedSource(DataSourceMixin):
                 else:
                     break
             path = self.path[i:]
-            if self.progressbar:
-                data = [
-                    ds(xarray_kwargs=self.xarray_kwargs).to_dask()
-                    for ds in tqdm(_match(cat, path), desc='Dataset(s)', ncols=79)
-                ]
-            else:
-                data = [ds(xarray_kwargs=self.xarray_kwargs).to_dask() for ds in _match(cat, path)]
+            data = [
+                ds(xarray_kwargs=self.xarray_kwargs).to_dask()
+                for ds in tqdm(_match(cat, path), desc='Dataset(s)', ncols=79)
+            ]
             if self.concat_kwargs:
                 self._ds = xr.concat(data, **self.concat_kwargs)
             else:
