@@ -1,11 +1,30 @@
 # Changelog
 
-## Intake-thredds v2021.x.xx
+## Intake-thredds v2021.6.16
 
-### Features
+([full changelog](https://github.com/NCAR/intake-thredds/compare/4fb261a1f131cefd1083a66b7a10fe1a30eaaaa8...ff4d2720b95077254c0eb184c9ddfe0b3dfc7ca0))
 
-- Allow `xarray_kwargs` for :py:class:`~intake_thredds.THREDDSMergedSource` [#32](https://github.com/NCAR/intake-thredds/pull/32) ([@aaronspring](https://github.com/aaronspring))
-- Allow `concat_kwargs` for :py:class:`~intake_thredds.THREDDSMergedSource` [#34](https://github.com/NCAR/intake-thredds/pull/34) ([@aaronspring](https://github.com/aaronspring))
+### Enhancements made
+
+- Add tqdm to requirements [#41](https://github.com/NCAR/intake-thredds/pull/41) ([@raybellwaves](https://github.com/raybellwaves))
+- Allow `xarray_kwargs` for {py:class}`~intake_thredds.source.THREDDSMergedSource` [#32](https://github.com/NCAR/intake-thredds/pull/32) ([@aaronspring](https://github.com/aaronspring))
+- Allow `concat_kwargs` for {py:class}`~intake_thredds.source.THREDDSMergedSource` [#34](https://github.com/NCAR/intake-thredds/pull/34) ([@aaronspring](https://github.com/aaronspring))
+
+### Maintenance and upkeep improvements
+
+- Bump pre-commit/action from v2.0.2 to v2.0.3 [#31](https://github.com/NCAR/intake-thredds/pull/31) ([@dependabot](https://github.com/dependabot))
+- Bump styfle/cancel-workflow-action from 0.8.0 to 0.9.0 [#29](https://github.com/NCAR/intake-thredds/pull/29) ([@dependabot](https://github.com/dependabot))
+- Bump pre-commit/action from v2.0.0 to v2.0.2 [#28](https://github.com/NCAR/intake-thredds/pull/28) ([@dependabot](https://github.com/dependabot))
+
+### Documentation improvements
+
+- DOC: GEFS example [#40](https://github.com/NCAR/intake-thredds/pull/40) ([@raybellwaves](https://github.com/raybellwaves))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/NCAR/intake-thredds/graphs/contributors?from=2021-02-17&to=2021-06-16&type=c))
+
+[@aaronspring](https://github.com/search?q=repo%3ANCAR%2Fintake-thredds+involves%3Aaaronspring+updated%3A2021-02-17..2021-06-16&type=Issues) | [@andersy005](https://github.com/search?q=repo%3ANCAR%2Fintake-thredds+involves%3Aandersy005+updated%3A2021-02-17..2021-06-16&type=Issues) | [@dependabot](https://github.com/search?q=repo%3ANCAR%2Fintake-thredds+involves%3Adependabot+updated%3A2021-02-17..2021-06-16&type=Issues) | [@raybellwaves](https://github.com/search?q=repo%3ANCAR%2Fintake-thredds+involves%3Araybellwaves+updated%3A2021-02-17..2021-06-16&type=Issues)
 
 ## Intake-thredds v2021.2.17
 
