@@ -7,9 +7,8 @@
 ### Enhancements made
 
 - Add tqdm to requirements [#41](https://github.com/NCAR/intake-thredds/pull/41) ([@raybellwaves](https://github.com/raybellwaves))
-
-* Allow `xarray_kwargs` for :py:class:`~intake_thredds.THREDDSMergedSource` [#32](https://github.com/NCAR/intake-thredds/pull/32) ([@aaronspring](https://github.com/aaronspring))
-* Allow `concat_kwargs` for :py:class:`~intake_thredds.THREDDSMergedSource` [#34](https://github.com/NCAR/intake-thredds/pull/34) ([@aaronspring](https://github.com/aaronspring))
+- Allow `xarray_kwargs` for {py:class}`~intake_thredds.THREDDSMergedSource` [#32](https://github.com/NCAR/intake-thredds/pull/32) ([@aaronspring](https://github.com/aaronspring))
+- Allow `concat_kwargs` for {py:class}`~intake_thredds.THREDDSMergedSource` [#34](https://github.com/NCAR/intake-thredds/pull/34) ([@aaronspring](https://github.com/aaronspring))
 
 ### Maintenance and upkeep improvements
 
