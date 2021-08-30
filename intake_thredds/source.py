@@ -1,7 +1,7 @@
 import fnmatch
 
 from intake_xarray.base import DataSourceMixin
-from tqdm import tqdm
+from tqdm.auto import tqdm
 
 from .cat import ThreddsCatalog
 
