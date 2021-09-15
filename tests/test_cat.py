@@ -70,3 +70,18 @@ def test_ThreddsCatalog_simplecache_fails_opendap(thredds_cat_url):
     """Test that ThreddsCatalog simplecache:: in url with opendap."""
     with pytest.raises(ValueError, match=r'simplecache requires driver="netcdf"'):
         intake.open_thredds_cat(f'simplecache::{thredds_cat_url}', driver='opendap')
+
+
+def test_ThreddsCatalog_intake_xarray_kwargs():
+    """Test that ThreddsCatalog allows intake_xarray kwargs."""
+    cat = intake.open_thredds_cat(
+        'https://psl.noaa.gov/thredds/catalog/Datasets/noaa.ersst/catalog.xml',
+        driver='netcdf',
+        intake_xarray_kwargs={
+            'xarray_kwargs': {'decode_times': False, 'engine': 'netcdf4'},
+            'chunks': {},
+        },
+    )
+    entry = cat['sst.mon.19712000.ltm.v3.nc']
+    ds = entry(chunks={}).to_dask()
+    assert isinstance(ds, xr.Dataset)
