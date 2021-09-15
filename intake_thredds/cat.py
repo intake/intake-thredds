@@ -11,6 +11,8 @@ class ThreddsCatalog(Catalog):
         Location of thredds catalog.
     driver : str
         Select driver to access data. Choose from 'netcdf' and 'opendap'.
+    intake_xarray_kwargs : dict
+        Keyword arguments to pass to intake_xarray DataSource.
     **kwargs :
         Additional keyword arguments are passed through to the
         :py:class:`~intake.catalog.Catalog` base class.
@@ -24,9 +26,10 @@ class ThreddsCatalog(Catalog):
 
     name = 'thredds_cat'
 
-    def __init__(self, url: str, driver: str = 'opendap', **kwargs):
+    def __init__(self, url: str, driver: str = 'opendap', intake_xarray_kwargs=None, **kwargs):
         self.url = url
         self.driver = driver
+        self.intake_xarray_kwargs = intake_xarray_kwargs or {'chunks': {}}
         super().__init__(**kwargs)
 
     def _load(self):
@@ -77,6 +80,11 @@ class ThreddsCatalog(Catalog):
                 url = f'{self.metadata["fsspec_pre_url"]}{url}'
             return url
 
+        def _update_args(ds):
+            args = self.intake_xarray_kwargs.copy()
+            args.update({'urlpath': access_urls(ds, self)})
+            return args
+
         self._entries.update(
             {
                 ds.name: LocalCatalogEntry(
@@ -84,7 +92,7 @@ class ThreddsCatalog(Catalog):
                     'THREDDS data',
                     self.driver,
                     True,
-                    {'urlpath': access_urls(ds, self), 'chunks': {}},
+                    _update_args(ds),
                     [],
                     [],
                     {},
