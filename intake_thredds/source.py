@@ -16,7 +16,7 @@ class THREDDSMergedSource(DataSourceMixin):
     ----------
     url : str
         Location of server
-    path : list of str
+    path : str, list of str
         Subcats to follow; include glob characters (*, ?) in here for matching.
     driver : str
         Select driver to access data. Choose from 'netcdf' and 'opendap'.
