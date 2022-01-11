@@ -43,7 +43,7 @@ def THREDDSMergedSource_cat_short(
 
 
 @pytest.fixture(scope='module')
-@pytest.mark.parametrize(path, ['air.sig995.194*.nc', ['air.sig995.194*.nc'], pytest.param(1, marks=pytest.mark.xfail)]])
+@pytest.mark.parametrize(path, ['air.sig995.194*.nc', ['air.sig995.194*.nc'], pytest.param(1, marks=pytest.mark.xfail)])
 def THREDDSMergedSource_path(THREDDSMergedSource_cat_short_url, path):
     """THREDDSMergedSource for various types of path."""
     assert intake.open_thredds_merged(THREDDSMergedSource_cat_short_url, path)
