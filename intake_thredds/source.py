@@ -69,8 +69,12 @@ class THREDDSMergedSource(DataSourceMixin):
         self.urlpath = url
         if 'simplecache::' in url:
             self.metadata.update({'fsspec_pre_url': 'simplecache::'})
-        assert isinstance(path, list), 'path must be list of str'
-        assert isinstance(path[0], str), 'path must be list of str'
+        if isinstance(path, str):
+            path = list(path)
+        if isinstance(path, list):
+            raise ValueError(f'path must be list of str, found {type(path)}')
+        if isinstance(path[0], str):
+            raise ValueError(f'path must be list of str, found {type(path)}')
         self.path = path
         self.driver = driver
         self.xarray_kwargs = xarray_kwargs
