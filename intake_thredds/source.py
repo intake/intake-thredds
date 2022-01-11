@@ -70,7 +70,7 @@ class THREDDSMergedSource(DataSourceMixin):
         if 'simplecache::' in url:
             self.metadata.update({'fsspec_pre_url': 'simplecache::'})
         if isinstance(path, str):
-            path =[path]
+            path = [path]
         if not isinstance(path, list):
             raise ValueError(f'path must be list of str, found {type(path)}')
         if not isinstance(path[0], str):
