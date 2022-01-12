@@ -57,8 +57,8 @@ panels_add_boostrap_css = False
 
 
 extlinks = {
-    'issue': ('https://github.com/NCAR/intake-thredds/issues/%s', 'GH#'),
-    'pr': ('https://github.com/NCAR/intake-thredds/pull/%s', 'GH#'),
+    'issue': ('https://github.com/intake/intake-thredds/issues/%s', 'GH#'),
+    'pr': ('https://github.com/intake/intake-thredds/pull/%s', 'GH#'),
 }
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -170,7 +170,7 @@ html_context = {
     'doc_path': 'docs',
 }
 html_theme_options = {
-    'github_url': 'https://github.com/NCAR/intake-thredds',
+    'github_url': 'https://github.com/intake/intake-thredds',
     'twitter_url': 'https://twitter.com/NCARXDev',
     'show_toc_level': 1,
 }
