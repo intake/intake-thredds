@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     name: python-${{ matrix.python-version }}
-    if: github.repository == 'NCAR/intake-thredds'
+    if: github.repository == 'intake/intake-thredds'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -55,7 +55,7 @@ jobs:
   upstream-dev:
     name: upstream-dev
     runs-on: ubuntu-latest
-    if: github.repository == 'NCAR/intake-thredds'
+    if: github.repository == 'intake/intake-thredds'
     defaults:
       run:
         shell: bash -l {0}
