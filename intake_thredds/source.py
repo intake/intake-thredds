@@ -16,7 +16,7 @@ class THREDDSMergedSource(DataSourceMixin):
     ----------
     url : str
         Location of server
-    path : list of str
+    path : str, list of str
         Subcats to follow; include glob characters (*, ?) in here for matching.
     driver : str
         Select driver to access data. Choose from 'netcdf' and 'opendap'.
@@ -69,6 +69,12 @@ class THREDDSMergedSource(DataSourceMixin):
         self.urlpath = url
         if 'simplecache::' in url:
             self.metadata.update({'fsspec_pre_url': 'simplecache::'})
+        if isinstance(path, str):
+            path = [path]
+        if not isinstance(path, list):
+            raise ValueError(f'path must be list of str, found {type(path)}')
+        if not all(isinstance(item, str) for item in path):
+            raise ValueError('path must be list of str')
         self.path = path
         self.driver = driver
         self.xarray_kwargs = xarray_kwargs
