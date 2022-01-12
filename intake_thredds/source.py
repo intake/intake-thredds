@@ -73,8 +73,8 @@ class THREDDSMergedSource(DataSourceMixin):
             path = [path]
         if not isinstance(path, list):
             raise ValueError(f'path must be list of str, found {type(path)}')
-        if not isinstance(path[0], str):
-            raise ValueError(f'path must be list of str, found {type(path)}')
+        if not all(isinstance(item, str) for item in path):
+            raise ValueError(f'path must be list of str')
         self.path = path
         self.driver = driver
         self.xarray_kwargs = xarray_kwargs
