@@ -1,18 +1,12 @@
 # intake-thredds
 
-- [intake-thredds](#intake-thredds)
-  - [Badges](#badges)
-  - [Installation](#installation)
+| CI          | [![GitHub Workflow Status][github-ci-badge]][github-ci-link] [![Code Coverage Status][codecov-badge]][codecov-link] |
+| :---------- | :-----------------------------------------------------------------------------------------------------------------: |
+| **Docs**    |                                   [![Documentation Status][rtd-badge]][rtd-link]                                    |
+| **Package** |                        [![Conda][conda-badge]][conda-link] [![PyPI][pypi-badge]][pypi-link]                         |
+| **License** |                                       [![License][license-badge]][repo-link]                                        |
 
-## Badges
-
-| CI          | [![GitHub Workflow Status][github-ci-badge]][github-ci-link] [![GitHub Workflow Status][github-lint-badge]][github-lint-link] [![Code Coverage Status][codecov-badge]][codecov-link] |
-| :---------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-| **Docs**    |                                                                    [![Documentation Status][rtd-badge]][rtd-link]                                                                    |
-| **Package** |                                                         [![Conda][conda-badge]][conda-link] [![PyPI][pypi-badge]][pypi-link]                                                         |
-| **License** |                                                                        [![License][license-badge]][repo-link]                                                                        |
-
-Intake interface to THREDDS data catalogs.
+Intake interface to [THREDDS](https://www.unidata.ucar.edu/software/tds/current/catalog/) data catalogs.
 
 ## Installation
 
@@ -31,9 +25,7 @@ conda install -c conda-forge intake-thredds
 See [documentation](https://intake-thredds.readthedocs.io) for more information.
 
 [github-ci-badge]: https://img.shields.io/github/workflow/status/NCAR/intake-thredds/CI?label=CI&logo=github&style=for-the-badge
-[github-lint-badge]: https://img.shields.io/github/workflow/status/NCAR/intake-thredds/linting?label=linting&logo=github&style=for-the-badge
 [github-ci-link]: https://github.com/NCAR/intake-thredds/actions?query=workflow%3ACI
-[github-lint-link]: https://github.com/NCAR/intake-thredds/actions?query=workflow%3Alinting
 [codecov-badge]: https://img.shields.io/codecov/c/github/NCAR/intake-thredds.svg?logo=codecov&style=for-the-badge
 [codecov-link]: https://codecov.io/gh/NCAR/intake-thredds
 [rtd-badge]: https://img.shields.io/readthedocs/intake-thredds/latest.svg?style=for-the-badge
