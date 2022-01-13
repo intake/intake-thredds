@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # complexity documentation build configuration file, created by
 # sphinx-quickstart on Tue Jul  9 22:26:36 2013.
@@ -87,9 +86,9 @@ source_suffix = ['.rst', '.md']
 master_doc = 'index'
 
 # General information about the project.
-project = u'intake-thredds'
-copyright = u'2019 onwards, intake-thredds developers'
-author = u'intake-thredds developers'
+project = 'intake-thredds'
+copyright = '2019 onwards, intake-thredds developers'
+author = 'intake-thredds developers'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -258,7 +257,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-    ('index', 'intake-thredds.tex', u'intake-thredds Documentation', author, 'manual')
+    ('index', 'intake-thredds.tex', 'intake-thredds Documentation', author, 'manual')
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -286,7 +285,7 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [('index', 'intake-thredds', u'intake-thredds Documentation', [author], 1)]
+man_pages = [('index', 'intake-thredds', 'intake-thredds Documentation', [author], 1)]
 
 # If true, show URL addresses after external links.
 # man_show_urls = False
@@ -301,7 +300,7 @@ texinfo_documents = [
     (
         'index',
         'intake-thredds',
-        u'intake-thredds Documentation',
+        'intake-thredds Documentation',
         author,
         'intake-thredds',
         'One line description of project.',

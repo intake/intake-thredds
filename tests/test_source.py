@@ -71,8 +71,8 @@ def test_THREDDSMergedSource(THREDDSMergedSource_cat):
     ds = cat.to_dask()
     assert dict(ds.dims) == {'lat': 73, 'lon': 144, 'time': 731}
     d = cat.discover()
-    assert set(d['metadata']['coords']) == set(('lat', 'lon', 'time'))
-    assert set(d['metadata']['data_vars'].keys()) == set(['air'])
+    assert set(d['metadata']['coords']) == {'lat', 'lon', 'time'}
+    assert set(d['metadata']['data_vars'].keys()) == {'air'}
 
 
 def test_THREDDSMergedSource_long_short(THREDDSMergedSource_cat, THREDDSMergedSource_cat_short):

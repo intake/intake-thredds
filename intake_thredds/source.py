@@ -65,7 +65,7 @@ class THREDDSMergedSource(DataSourceMixin):
         metadata=None,
     ):
 
-        super(THREDDSMergedSource, self).__init__(metadata=metadata)
+        super().__init__(metadata=metadata)
         self.urlpath = url
         if 'simplecache::' in url:
             self.metadata.update({'fsspec_pre_url': 'simplecache::'})
