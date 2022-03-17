@@ -78,7 +78,7 @@ def test_ThreddsCatalog_intake_xarray_kwargs():
         'https://psl.noaa.gov/thredds/catalog/Datasets/noaa.ersst/catalog.xml',
         driver='netcdf',
         intake_xarray_kwargs={
-            'xarray_kwargs': {'decode_times': False, 'engine': 'scipy'},
+            'xarray_kwargs': {'decode_times': False, 'engine': 'h5netcdf'},
             'chunks': {},
         },
     )
