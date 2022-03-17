@@ -85,3 +85,4 @@ def test_ThreddsCatalog_intake_xarray_kwargs():
     entry = cat['sst.mon.19712000.ltm.v3.nc']
     ds = entry(chunks={}).to_dask()
     assert isinstance(ds, xr.Dataset)
+
