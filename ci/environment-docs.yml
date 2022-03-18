@@ -19,3 +19,4 @@ dependencies:
   - zarr
   - sphinx-copybutton
   - sphinx-design
+  - cfgrib

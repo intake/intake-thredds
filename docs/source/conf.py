@@ -51,7 +51,8 @@ autosummary_generate = []
 
 # Enable notebook execution
 jupyter_execute_notebooks = 'cache'
-
+execution_timeout = 600
+execution_allow_errors = True
 
 # The suffix of source filenames.
 source_suffix = ['.rst', '.md']
@@ -90,9 +91,7 @@ pygments_style = 'sphinx'
 # a list of builtin themes.
 html_theme = 'furo'
 
-# The name of an image file (relative to this directory) to place at the top
-# of the sidebar.
-html_logo = 'images/NSF_4-Color_bitmap_Logo.png'
+html_static_path = ['_static']
 
 html_context = {
     'github_user': 'intake',
@@ -100,7 +99,7 @@ html_context = {
     'github_version': 'main',
     'doc_path': 'docs',
 }
-html_theme_options = {'sidebar_hide_name': True}
+html_theme_options = {'sidebar_hide_name': True, 'light_logo': '', 'dark_logo': ''}
 html_last_updated_fmt = '%b %d, %Y'
 
 
@@ -112,7 +111,6 @@ html_last_updated_fmt = '%b %d, %Y'
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
 
 
 # Output file base name for HTML help builder.
