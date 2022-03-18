@@ -1,0 +1,21 @@
+name: intake-thredds-dev
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - dask
+  - furo
+  - h5netcdf
+  - h5py
+  - intake-xarray
+  - jupyterlab
+  - myst-nb
+  - netcdf4
+  - pip
+  - python=3.9
+  - siphon
+  - sphinx
+  - tqdm
+  - zarr
+  - sphinx-copybutton
+  - sphinx-design
