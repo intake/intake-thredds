@@ -103,8 +103,8 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-
 # Sphinx
 docs/_build
 dask-worker-space/
 *.DS_Store
+my_caching_folder/

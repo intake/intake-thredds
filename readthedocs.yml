@@ -1,6 +1,12 @@
+version: 2
+conda:
+  environment: ci/environment-docs.yml
+build:
+  os: 'ubuntu-20.04'
+  tools:
+    python: 'mambaforge-4.10'
+
 python:
-  version: 3
-  setup_py_install: true
-  system_packages: true
   install:
-    - requirements: docs/requirements.txt
+    - method: pip
+      path: .
