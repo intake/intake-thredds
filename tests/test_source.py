@@ -69,10 +69,10 @@ def THREDDSMergedSource_cat_short_simplecache(
 def test_THREDDSMergedSource(THREDDSMergedSource_cat):
     cat = THREDDSMergedSource_cat
     ds = cat.to_dask()
-    assert dict(ds.dims) == {'lat': 73, 'lon': 144, 'time': 731}
+    assert dict(ds.dims) == {'lat': 73, 'lon': 144, 'nbnds': 2, 'time': 731}
     d = cat.discover()
     assert set(d['metadata']['coords']) == {'lat', 'lon', 'time'}
-    assert set(d['metadata']['data_vars'].keys()) == {'air'}
+    assert set(d['metadata']['data_vars'].keys()) == {'air', 'time_bnds'}
 
 
 def test_THREDDSMergedSource_long_short(THREDDSMergedSource_cat, THREDDSMergedSource_cat_short):
