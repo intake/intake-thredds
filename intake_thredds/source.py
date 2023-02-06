@@ -64,7 +64,6 @@ class THREDDSMergedSource(DataSourceMixin):
         concat_kwargs=None,
         metadata=None,
     ):
-
         super().__init__(metadata=metadata)
         self.urlpath = url
         if 'simplecache::' in url:
