@@ -1,3 +1,6 @@
+ci:
+  autoupdate_schedule: quarterly
+
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
@@ -11,12 +14,11 @@ repos:
       - id: debug-statements
       - id: mixed-line-ending
 
-  - repo: https://github.com/asottile/pyupgrade
-    rev: v3.3.1
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: 'v0.0.259'
     hooks:
-      - id: pyupgrade
-        args:
-          - '--py37-plus'
+      - id: ruff
+        args: ['--fix']
 
   - repo: https://github.com/psf/black
     rev: 23.1.0
@@ -27,16 +29,6 @@ repos:
     rev: v0.3.8
     hooks:
       - id: blackdoc
-
-  - repo: https://github.com/PyCQA/flake8
-    rev: 6.0.0
-    hooks:
-      - id: flake8
-
-  - repo: https://github.com/PyCQA/isort
-    rev: 5.12.0
-    hooks:
-      - id: isort
 
   - repo: https://github.com/pre-commit/mirrors-prettier
     rev: v3.0.0-alpha.6
