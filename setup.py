@@ -19,9 +19,9 @@ CLASSIFIERS = [
     'Intended Audience :: Science/Research',
     'Programming Language :: Python',
     'Programming Language :: Python :: 3',
-    'Programming Language :: Python :: 3.7',
-    'Programming Language :: Python :: 3.8',
     'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
     'Topic :: Scientific/Engineering',
 ]
 
@@ -31,7 +31,7 @@ setup(
     description='Intake interface to THREDDS data catalogs.',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    python_requires='>=3.7',
+    python_requires='>=3.9',
     maintainer='NCAR XDev Team',
     maintainer_email='xdev@ucar.edu',
     url='https://github.com/intake/intake-thredds',

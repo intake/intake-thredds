@@ -1,6 +1,6 @@
 [tool.black]
 line-length = 100
-target-version = ['py38']
+target-version = ['py39']
 skip-string-normalization = true
 
 [build-system]
@@ -9,7 +9,7 @@ requires = ["setuptools>=45", "wheel", "setuptools_scm>=6.2"]
 
 [tool.ruff]
 line-length = 100
-target-version = "py38"
+target-version = "py39"
 builtins = ["ellipsis"]
 # Exclude a variety of commonly ignored directories.
 exclude = [
