@@ -28,7 +28,7 @@ jobs:
           micromamba-version: "latest"
           environment-file: ci/environment-upstream-dev.yml
           extra-specs: |
-            python=3.10
+            python=3.11
       - name: Install intake-thredds
         run: |
           python -m pip install . --no-deps
