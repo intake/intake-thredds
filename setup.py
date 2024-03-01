@@ -2,16 +2,14 @@
 
 """The setup script."""
 
+import pathlib
 
 from setuptools import find_packages, setup
 
 with open('requirements.txt') as f:
     install_requires = f.read().strip().split('\n')
 
-with open('README.md') as f:
-    long_description = f.read()
-
-
+long_description = pathlib.Path('README.md').read_text()
 CLASSIFIERS = [
     'Development Status :: 4 - Beta',
     'License :: OSI Approved :: Apache Software License',
@@ -19,9 +17,9 @@ CLASSIFIERS = [
     'Intended Audience :: Science/Research',
     'Programming Language :: Python',
     'Programming Language :: Python :: 3',
-    'Programming Language :: Python :: 3.9',
     'Programming Language :: Python :: 3.10',
     'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
     'Topic :: Scientific/Engineering',
 ]
 
@@ -31,7 +29,7 @@ setup(
     description='Intake interface to THREDDS data catalogs.',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    python_requires='>=3.9',
+    python_requires='>=3.10',
     maintainer='NCAR XDev Team',
     maintainer_email='xdev@ucar.edu',
     url='https://github.com/intake/intake-thredds',

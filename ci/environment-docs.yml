@@ -12,7 +12,7 @@ dependencies:
   - myst-nb
   - netcdf4
   - pip
-  - python=3.9
+  - python=3.11
   - siphon
   - sphinx
   - tqdm
