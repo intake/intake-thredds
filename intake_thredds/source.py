@@ -46,6 +46,7 @@ class THREDDSMergedSource:
         metadata: {}
 
     """
+
     def __init__(
         self,
         url,
@@ -97,7 +98,6 @@ class THREDDSMergedSource:
 
 def _match(cat, patterns):
     out = []
-    breakpoint()
     for name in cat.entries:
         if fnmatch.fnmatch(name, patterns[0]):
             if len(patterns) == 1:

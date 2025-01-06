@@ -1,10 +1,9 @@
-from intake.readers.catalogs import THREDDSCatalogReader
 from intake.readers import Service
+from intake.readers.catalogs import THREDDSCatalogReader
 
 
 class ThreddsCatalog:
-    """Intake catalog interface to a thredds catalog.
-    """
+    """Intake catalog interface to a thredds catalog."""
 
     def __new__(cls, url: str, driver: str = 'opendap', intake_xarray_kwargs=None, metadata=None):
         """
@@ -27,24 +26,24 @@ class ThreddsCatalog:
         >>> cat = intake.open_thredds_cat(cat_url)
         """
 
-        simplecache = url.startswith("simplecache:")
-        if simplecache and driver == "opendap":
+        simplecache = url.startswith('simplecache:')
+        if simplecache and driver == 'opendap':
             raise ValueError('simplecache requires driver="netcdf"')
-        url = url.removeprefix("simplecache::")
+        url = url.removeprefix('simplecache::')
         data = Service(url)
         reader = THREDDSCatalogReader(data)
         cat = reader.read()
-        if driver == "opendap":
-            cat.aliases = {k[:-4]: k for k in cat.entries if k.endswith("_DAP")}
-        elif driver == "netcdf":
-            cat.aliases = {k[:-4]: k for k in cat.entries if k.endswith("_CDF")}
+        if driver == 'opendap':
+            cat.aliases = {k[:-4]: k for k in cat.entries if k.endswith('_DAP')}
+        elif driver == 'netcdf':
+            cat.aliases = {k[:-4]: k for k in cat.entries if k.endswith('_CDF')}
         if metadata:
             cat.metadata.update(metadata)
         if simplecache:
             for d in cat.data.values():
-                d.kwargs["url"] = "simplecache::" + d.kwargs["url"]
+                d.kwargs['url'] = 'simplecache::' + d.kwargs['url']
         if intake_xarray_kwargs:
-            intake_xarray_kwargs.update(intake_xarray_kwargs.pop("xarray_kwargs", {}))
+            intake_xarray_kwargs.update(intake_xarray_kwargs.pop('xarray_kwargs', {}))
             for d in cat.entries.values():
                 d.kwargs.update(intake_xarray_kwargs)
         return cat
