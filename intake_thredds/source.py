@@ -1,12 +1,9 @@
 import fnmatch
 
-from intake_xarray.base import DataSourceMixin
-from tqdm.auto import tqdm
-
 from .cat import ThreddsCatalog
 
 
-class THREDDSMergedSource(DataSourceMixin):
+class THREDDSMergedSource:
     """Merges multiple datasets into a single datasets.
 
     This source takes a THREDDS URL and a path to descend down, and calls the
@@ -49,22 +46,17 @@ class THREDDSMergedSource(DataSourceMixin):
         metadata: {}
 
     """
-
-    version = '1.0'
-    container = 'xarray'
-    name = 'thredds_merged'
-    partition_access = True
-
     def __init__(
         self,
         url,
         path,
         driver='opendap',
-        xarray_kwargs={},
+        xarray_kwargs=None,
         concat_kwargs=None,
         metadata=None,
     ):
-        super().__init__(metadata=metadata)
+        xarray_kwargs = xarray_kwargs or {}
+        self.metadata = metadata
         self.urlpath = url
         if 'simplecache::' in url:
             self.metadata.update({'fsspec_pre_url': 'simplecache::'})
@@ -78,33 +70,35 @@ class THREDDSMergedSource(DataSourceMixin):
         self.driver = driver
         self.xarray_kwargs = xarray_kwargs
         self.concat_kwargs = concat_kwargs
-        self._ds = None
 
-    def _open_dataset(self):
+    def read(self, xarray_kwargs=None):
         import xarray as xr
+        from tqdm import tqdm
 
-        if self._ds is None:
-            cat = ThreddsCatalog(self.urlpath, driver=self.driver)
-            for i in range(len(self.path)):
-                part = self.path[i]
-                if '*' not in part and '?' not in part:
-                    cat = cat[part](driver=self.driver)
-                else:
-                    break
-            path = self.path[i:]
-            data = [
-                ds(xarray_kwargs=self.xarray_kwargs).to_dask()
-                for ds in tqdm(_match(cat, path), desc='Dataset(s)', ncols=79)
-            ]
-            if self.concat_kwargs:
-                self._ds = xr.concat(data, **self.concat_kwargs)
+        cat = ThreddsCatalog(self.urlpath, driver=self.driver, metadata=self.metadata)
+        for i in range(len(self.path)):
+            part = self.path[i]
+            if '*' not in part and '?' not in part:
+                cat = cat[part].read(driver=self.driver)
             else:
-                self._ds = xr.combine_by_coords(data, combine_attrs='override')
+                break
+        path = self.path[i:]
+        data = [
+            ds(xarray_kwargs=self.xarray_kwargs).to_dask()
+            for ds in tqdm(_match(cat, path), desc='Dataset(s)', ncols=79)
+        ]
+        if self.concat_kwargs:
+            return xr.concat(data, **self.concat_kwargs)
+        else:
+            return xr.combine_by_coords(data, combine_attrs='override')
+
+    to_dask = read
 
 
 def _match(cat, patterns):
     out = []
-    for name in cat:
+    breakpoint()
+    for name in cat.entries:
         if fnmatch.fnmatch(name, patterns[0]):
             if len(patterns) == 1:
                 out.append(cat[name](chunks={}))

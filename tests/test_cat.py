@@ -13,9 +13,8 @@ def thredds_cat_url():
 def test_ThreddsCatalog_init_catalog(thredds_cat_url):
     """Test initialization of ThreddsCatalog."""
     cat = intake.open_thredds_cat(thredds_cat_url)
-    assert isinstance(cat, intake.catalog.Catalog)
-    assert cat.metadata == cat.cat.metadata
-    assert cat.discover()['container'] == 'catalog'
+    assert isinstance(cat, intake.Catalog)
+    assert cat.metadata
 
     assert 'err.mnmean.v3.nc' in cat
 
@@ -28,42 +27,32 @@ def test_ThreddsCatalog(thredds_cat_url, driver):
     """Test entry.to_dask() is xr.Dataset and allows opendap and netcdf as source."""
     cat = intake.open_thredds_cat(thredds_cat_url, driver=driver)
     entry = cat['sst.mon.19712000.ltm.v3.nc']
-    if driver == 'opendap':
-        assert isinstance(entry, intake_xarray.opendap.OpenDapSource)
-    elif driver == 'netcdf':
-        assert isinstance(entry, intake_xarray.netcdf.NetCDFSource)
-    d = entry.describe()
-    assert d['name'] == 'sst.mon.19712000.ltm.v3.nc'
-    assert d['container'] == 'xarray'
-    assert d['plugin'] == [driver]
+    assert isinstance(entry, intake.readers.XArrayDatasetReader)
     if driver == 'opendap':
         loc = 'dodsC'
     elif driver == 'netcdf':
         loc = 'fileServer'
     assert (
-        d['args']['urlpath']
+        entry.data.url
         == f'https://psl.noaa.gov/thredds/{loc}/Datasets/noaa.ersst/sst.mon.19712000.ltm.v3.nc'
     )
-    ds = entry(chunks={}).to_dask()
+    ds = entry.read()
     assert isinstance(ds, xr.Dataset)
 
 
-def test_ThreddsCatalog_simplecache_netcdf(thredds_cat_url):
+def test_ThreddsCatalog_simplecache_netcdf(thredds_cat_url, tmpdir):
     """Test that ThreddsCatalog allows simplecache:: in url if netcdf as source."""
     import os
 
     import fsspec
 
-    fsspec.config.conf['simplecache'] = {'cache_storage': 'my_caching_folder', 'same_names': True}
+    fsspec.config.conf['simplecache'] = {'cache_storage': str(tmpdir), 'same_names': True}
     cat = intake.open_thredds_cat(f'simplecache::{thredds_cat_url}', driver='netcdf')
     entry = cat['sst.mon.19712000.ltm.v3.nc']
-    ds = entry(chunks={}).to_dask()
+    ds = entry().read()
     assert isinstance(ds, xr.Dataset)
-    # test files present
-    cached_file = 'my_caching_folder/sst.mon.19712000.ltm.v3.nc'
+    cached_file = f'{tmpdir}/sst.mon.19712000.ltm.v3.nc'
     assert os.path.exists(cached_file)
-    os.remove(cached_file)
-    assert not os.path.exists(cached_file)
 
 
 def test_ThreddsCatalog_simplecache_fails_opendap(thredds_cat_url):
@@ -83,5 +72,5 @@ def test_ThreddsCatalog_intake_xarray_kwargs():
         },
     )
     entry = cat['sst.mon.19712000.ltm.v3.nc']
-    ds = entry(chunks={}).to_dask()
+    ds = entry(chunks={}).read()
     assert isinstance(ds, xr.Dataset)
