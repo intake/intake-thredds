@@ -31,12 +31,8 @@ class ThreddsCatalog:
             raise ValueError('simplecache requires driver="netcdf"')
         url = url.removeprefix('simplecache::')
         data = Service(url)
-        reader = THREDDSCatalogReader(data)
+        reader = THREDDSCatalogReader(data, make=driver[-3:])
         cat = reader.read()
-        if driver == 'opendap':
-            cat.aliases = {k[:-4]: k for k in cat.entries if k.endswith('_DAP')}
-        elif driver == 'netcdf':
-            cat.aliases = {k[:-4]: k for k in cat.entries if k.endswith('_CDF')}
         if metadata:
             cat.metadata.update(metadata)
         if simplecache:

@@ -57,7 +57,7 @@ class THREDDSMergedSource:
         metadata=None,
     ):
         xarray_kwargs = xarray_kwargs or {}
-        self.metadata = metadata
+        self.metadata = metadata or {}
         self.urlpath = url
         if 'simplecache::' in url:
             self.metadata.update({'fsspec_pre_url': 'simplecache::'})
@@ -80,12 +80,12 @@ class THREDDSMergedSource:
         for i in range(len(self.path)):
             part = self.path[i]
             if '*' not in part and '?' not in part:
-                cat = cat[part].read(driver=self.driver)
+                cat = cat[part].read(make=self.driver[-3:])
             else:
                 break
         path = self.path[i:]
         data = [
-            ds(xarray_kwargs=self.xarray_kwargs).to_dask()
+            ds(**self.xarray_kwargs).read()
             for ds in tqdm(_match(cat, path), desc='Dataset(s)', ncols=79)
         ]
         if self.concat_kwargs:

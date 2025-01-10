@@ -68,16 +68,14 @@ def THREDDSMergedSource_cat_short_simplecache(
 
 def test_THREDDSMergedSource(THREDDSMergedSource_cat):
     cat = THREDDSMergedSource_cat
-    ds = cat.to_dask()
+    ds = cat.read()
     assert dict(ds.dims) == {'lat': 73, 'lon': 144, 'nbnds': 2, 'time': 731}
-    d = cat.discover()
-    assert set(d['metadata']['coords']) == {'lat', 'lon', 'time'}
-    assert set(d['metadata']['data_vars'].keys()) == {'air', 'time_bnds'}
+    assert list(ds.data_vars) == ['air', 'time_bnds']
 
 
 def test_THREDDSMergedSource_long_short(THREDDSMergedSource_cat, THREDDSMergedSource_cat_short):
-    ds = THREDDSMergedSource_cat.to_dask()
-    ds_short = THREDDSMergedSource_cat_short.to_dask()
+    ds = THREDDSMergedSource_cat.read()
+    ds_short = THREDDSMergedSource_cat_short.read()
     for c in ds.coords:
         assert (ds[c] == ds_short[c]).all()
     assert ds.sizes == ds_short.sizes
@@ -92,7 +90,7 @@ def test_THREDDSMergedSource_simplecache_netcdf(THREDDSMergedSource_cat_short_si
     cache_storage = 'my_caching_folder'
     fsspec.config.conf['simplecache'] = {'cache_storage': cache_storage, 'same_names': True}
     cat = THREDDSMergedSource_cat_short_simplecache
-    ds = cat.to_dask()
+    ds = cat.read()
     assert isinstance(ds, xr.Dataset)
     # test files present
     cached_files = ['air.sig995.1948.nc', 'air.sig995.1949.nc']
@@ -124,8 +122,8 @@ def test_THREDDSMergedSource_xarray_kwargs(THREDDSMergedSource_cat_short_url, dr
             'air.sig995.194*.nc',
         ],
         driver=driver,
-        xarray_kwargs={'decode_times': decode_times},
-    ).to_dask()
+        xarray_kwargs={'decode_times': decode_times, 'chunks': {}},
+    ).read()
     # check xarray_kwargs
     if decode_times:
         assert 'units' not in ds.time.attrs
@@ -147,9 +145,10 @@ def test_concat_dim():
             backend_kwargs=dict(
                 filter_by_keys={'typeOfLevel': 'heightAboveGround', 'shortName': '2t'}
             ),
+            chunks={},
         ),
         concat_kwargs=dict(dim='number'),
-    ).to_dask()
+    ).read()
     assert 'number' in ds.dims
     assert 11 in ds.number
     assert 12 in ds.number
