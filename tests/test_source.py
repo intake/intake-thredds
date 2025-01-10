@@ -135,6 +135,9 @@ def test_concat_dim():
     """Test THREDDSMergedSource with concat_dim. Requires multiple files with same
     other coords to be concatinated along new dimension specified by concat_dim.
     Here get two ensemble members initialized 20200831 00:00 at 15.5 days = 372h"""
+    import fsspec
+
+    fsspec.utils.setup_logging(logger_name='intake')
     url = 'simplecache::https://www.ncei.noaa.gov/thredds/catalog/model-gefs-003/202008/20200831/catalog.xml'
     ds = intake.open_thredds_merged(
         url,
@@ -146,6 +149,7 @@ def test_concat_dim():
                 filter_by_keys={'typeOfLevel': 'heightAboveGround', 'shortName': '2t'}
             ),
             chunks={},
+            open_local=True,  # because cfgrib
         ),
         concat_kwargs=dict(dim='number'),
     ).read()
