@@ -125,31 +125,32 @@ def test_THREDDSMergedSource_xarray_kwargs(THREDDSMergedSource_cat_short_url, dr
         assert 'units' in ds.time.attrs
 
 
-def test_concat_dim():
-    """Test THREDDSMergedSource with concat_dim. Requires multiple files with same
-    other coords to be concatinated along new dimension specified by concat_dim.
-    Here get two ensemble members initialized 20200831 00:00 at 15.5 days = 372h"""
-    import fsspec
-
-    fsspec.utils.setup_logging(logger_name='intake')
-    url = 'simplecache::https://www.ncei.noaa.gov/thredds/catalog/model-gefs-003/202008/20200831/catalog.xml'
-    ds = intake.open_thredds_merged(
-        url,
-        ['NCEP gens-a Grid 3 Member-Forecast 1[1-2]*-372 for 2020-08-31 00:00*'],
-        driver='netcdf',
-        xarray_kwargs=dict(
-            engine='cfgrib',
-            backend_kwargs=dict(
-                filter_by_keys={'typeOfLevel': 'heightAboveGround', 'shortName': '2t'}
-            ),
-            chunks={},
-            open_local=True,  # because cfgrib
-        ),
-        concat_kwargs=dict(dim='number'),
-    ).read()
-    assert 'number' in ds.dims
-    assert 11 in ds.number
-    assert 12 in ds.number
+# data became unavailable
+# def test_concat_dim():
+#     """Test THREDDSMergedSource with concat_dim. Requires multiple files with same
+#     other coords to be concatinated along new dimension specified by concat_dim.
+#     Here get two ensemble members initialized 20200831 00:00 at 15.5 days = 372h"""
+#     import fsspec
+#
+#     fsspec.utils.setup_logging(logger_name='intake')
+#     url = 'simplecache::https://www.ncei.noaa.gov/thredds/catalog/model-gefs-003/202008/20200831/catalog.xml'
+#     ds = intake.open_thredds_merged(
+#         url,
+#         ['NCEP gens-a Grid 3 Member-Forecast 1[1-2]*-372 for 2020-08-31 00:00*'],
+#         driver='netcdf',
+#         xarray_kwargs=dict(
+#             engine='cfgrib',
+#             backend_kwargs=dict(
+#                 filter_by_keys={'typeOfLevel': 'heightAboveGround', 'shortName': '2t'}
+#             ),
+#             chunks={},
+#             open_local=True,  # because cfgrib
+#         ),
+#         concat_kwargs=dict(dim='number'),
+#     ).read()
+#     assert 'number' in ds.dims
+#     assert 11 in ds.number
+#     assert 12 in ds.number
 
 
 def test_gh163():
