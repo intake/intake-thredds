@@ -97,7 +97,10 @@ class THREDDSMergedSource:
 def _match(cat, patterns):
     out = []
     for name in cat.entries:
-        if fnmatch.fnmatch(name.removesuffix('_CDF').removesuffix('_DAP'), patterns[0]):
+        alt_name = name.removesuffix('_CDF').removesuffix('_DAP')
+        if (isinstance(patterns[0], str) and fnmatch.fnmatch(alt_name, patterns[0])) or (
+            alt_name in patterns[0]
+        ):
             if len(patterns) == 1:
                 out.append(cat[name])
             else:

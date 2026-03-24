@@ -163,4 +163,5 @@ def test_gh163():
             current_file = f'{file_prefix}{day:02d}_{hr:02d}:00:00.nc'
             file_list.append(current_file)
     catalog = intake.open_thredds_merged(wrf_url, path=[file_list], xarray_kwargs={'chunks': {}})
-    catalog.to_dask()
+    ds = catalog.to_dask()
+    assert bool(ds)
