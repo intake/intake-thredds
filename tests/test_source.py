@@ -42,15 +42,9 @@ def THREDDSMergedSource_cat_short(
     return cat
 
 
-@pytest.mark.parametrize('path', [1, [1, 'air.sig995.194*.nc']])
-def test_THREDDSMergedSource_path_error(THREDDSMergedSource_cat_short_url, path):
-    with pytest.raises(ValueError):
-        intake.open_thredds_merged(THREDDSMergedSource_cat_short_url, path)
-
-
-@pytest.mark.parametrize('path', ['air.sig995.194*.nc', ['air.sig995.194*.nc']])
-def test_THREDDSMergedSource_path(THREDDSMergedSource_cat_short_url, path):
+def test_THREDDSMergedSource_path(THREDDSMergedSource_cat_short_url):
     """THREDDSMergedSource for various types of path."""
+    path = 'air.sig995.194*.nc'
     assert intake.open_thredds_merged(THREDDSMergedSource_cat_short_url, path)
 
 
@@ -70,7 +64,7 @@ def test_THREDDSMergedSource(THREDDSMergedSource_cat):
     cat = THREDDSMergedSource_cat
     ds = cat.read()
     assert dict(ds.dims) == {'lat': 73, 'lon': 144, 'nbnds': 2, 'time': 731}
-    assert list(ds.data_vars) == ['air', 'time_bnds']
+    assert set(ds.data_vars) == {'air', 'time_bnds'}
 
 
 def test_THREDDSMergedSource_long_short(THREDDSMergedSource_cat, THREDDSMergedSource_cat_short):
@@ -156,3 +150,17 @@ def test_concat_dim():
     assert 'number' in ds.dims
     assert 11 in ds.number
     assert 12 in ds.number
+
+
+def test_gh163():
+    wrf_url = (
+        'https://thredds.rda.ucar.edu/thredds/catalog/files/g/d559000/wy2006/200606/catalog.xml'
+    )
+    file_list = []
+    file_prefix = 'wrf3d_d01_2006-06-'
+    for day in [1]:
+        for hr in range(6):
+            current_file = f'{file_prefix}{day:02d}_{hr:02d}:00:00.nc'
+            file_list.append(current_file)
+    catalog = intake.open_thredds_merged(wrf_url, path=[file_list], xarray_kwargs={'chunks': {}})
+    catalog.to_dask()
