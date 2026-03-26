@@ -27,7 +27,7 @@ classifiers = [
 ]
 dependencies = [
     "aiohttp >=3.7",
-    "fsspec >=0.8.5",
+    "fsspec >=2025.5.0",
     "h5netcdf >=0.8.1",
     "intake-xarray",
     "intake>2",
