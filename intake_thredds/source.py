@@ -15,6 +15,7 @@ class THREDDSMergedSource:
         Location of server
     path : str, list of str
         Subcats to follow; include glob characters (*, ?) in here for matching.
+
     driver : str
         Select driver to access data. Choose from 'netcdf' and 'opendap'.
     xarray_kwargs: dict
@@ -63,30 +64,27 @@ class THREDDSMergedSource:
             self.metadata.update({'fsspec_pre_url': 'simplecache::'})
         if isinstance(path, str):
             path = [path]
-        if not isinstance(path, list):
-            raise ValueError(f'path must be list of str, found {type(path)}')
-        if not all(isinstance(item, str) for item in path):
-            raise ValueError('path must be list of str')
         self.path = path
         self.driver = driver
         self.xarray_kwargs = xarray_kwargs
         self.concat_kwargs = concat_kwargs
 
-    def read(self, xarray_kwargs=None):
+    def read(self):
         import xarray as xr
         from tqdm import tqdm
 
         cat = ThreddsCatalog(self.urlpath, driver=self.driver, metadata=self.metadata)
+        if not self.path:
+            raise ValueError
         for i in range(len(self.path)):
-            part = self.path[i]
-            if '*' not in part and '?' not in part:
-                cat = cat[part].read(make=self.driver[-3:])
-            else:
+            path = self.path[i]
+            if isinstance(path, list) or '*' in path or '?' in path:
                 break
-        path = self.path[i:]
+            cat = cat[path].read()
+        rest = self.path[i:]
         data = [
             ds(**self.xarray_kwargs).read()
-            for ds in tqdm(_match(cat, path), desc='Dataset(s)', ncols=79)
+            for ds in tqdm(_match(cat, rest), desc='Dataset(s)', ncols=79)
         ]
         if self.concat_kwargs:
             return xr.concat(data, **self.concat_kwargs)
@@ -99,9 +97,12 @@ class THREDDSMergedSource:
 def _match(cat, patterns):
     out = []
     for name in cat.entries:
-        if fnmatch.fnmatch(name, patterns[0]):
+        alt_name = name.removesuffix('_CDF').removesuffix('_DAP')
+        if (isinstance(patterns[0], str) and fnmatch.fnmatch(alt_name, patterns[0])) or (
+            alt_name in patterns[0]
+        ):
             if len(patterns) == 1:
-                out.append(cat[name](chunks={}))
+                out.append(cat[name])
             else:
                 out.extend(_match(cat[name](), patterns[1:]))
     return out

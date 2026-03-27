@@ -1,8 +1,57 @@
-
-
 [build-system]
-requires = ["setuptools>=45", "wheel", "setuptools_scm>=6.2"]
+requires = ["hatchling>=1.27.0", "hatch-vcs"]
+build-backend = "hatchling.build"
 
+[project]
+name = "intake-thredds"
+description = "Intake interface to THREDDS data catalogs."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+maintainers = [
+    { name = "NCAR XDev Team", email = "xdev@ucar.edu" },
+]
+keywords = ["intake", "thredds", "siphon", "catalogs"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Scientific/Engineering",
+]
+dependencies = [
+    "aiohttp >=3.7",
+    "fsspec >=2025.5.0",
+    "h5netcdf >=0.8.1",
+    "intake-xarray",
+    "intake>2",
+    "pydap",
+    "siphon",
+    "tqdm",
+]
+dynamic = ["version"]
+
+[project.urls]
+Documentation = "https://github.com/intake/intake-thredds"
+Source = "https://github.com/intake/intake-thredds"
+Tracker = "https://github.com/intake/intake-thredds/issues"
+
+[project.entry-points."intake.drivers"]
+thredds_cat = "intake_thredds.cat:ThreddsCatalog"
+thredds_merged = "intake_thredds.source:THREDDSMergedSource"
+
+[tool.hatch.version]
+source = "vcs"
+raw-options = { 'version_scheme' = 'post-release' }
+
+[tool.hatch.build.hooks.vcs]
+version-file = "intake_thredds/_version.py"
 
 [tool.ruff]
 line-length = 100
